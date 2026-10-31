@@ -59,6 +59,14 @@ pages.perso = {
           : `<div class="cc-look-off"><img src="${DOFUSDB.symbol(d.breed)}" width="120" height="120" alt="">
               <p>L’éditeur d’apparence Skinoskope n’est disponible que sur la version locale de la maquette.<br>Le personnage gardera l’apparence par défaut de sa classe.</p></div>`}
       </div>
+      ${SKINOSKOPE_URL && !SKINOSKOPE_SAME_ORIGIN ? `
+        <div class="cc-paste">
+          <p>Sur la version en ligne, l’apparence ne peut pas être lue toute seule. Ouvre l’éditeur en grand, fais ton skin, puis colle ici l’adresse de la page.</p>
+          <div class="cc-paste-row">
+            <a class="btn ghost sm" href="${SKINOSKOPE_URL}?s=${lookParam(ch)}" target="_blank" rel="noopener">Ouvrir l’éditeur en grand</a>
+            <input class="input" id="skinoLink" placeholder="${SKINOSKOPE_URL}?s=…" aria-label="Lien du skin Skinoskope">
+          </div>
+        </div>` : ''}
       <div class="cc-foot">
         <span class="ash small">Corps, tête, couleurs, équipements : tout se règle dans l’éditeur. Ton choix est repris à l’étape suivante.</span>
         <button class="btn ghost" onclick="draftStep(1)">Retour</button>

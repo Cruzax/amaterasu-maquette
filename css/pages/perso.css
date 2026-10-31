@@ -69,3 +69,7 @@
 }
 .cc-look-off { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; color: var(--c-ash); padding: 24px; }
 .cc-look-off p { max-width: 52ch; margin: 0; }
+.cc-paste { margin-top: 12px; padding: 14px 16px; border-radius: var(--r-md); border: 1px dashed #d9a44166; background: #1a1408; }
+.cc-paste p { margin: 0 0 10px; font-size: var(--fs-sm); color: var(--c-kin); }
+.cc-paste-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.cc-paste-row .input { flex: 1; min-width: 220px; }

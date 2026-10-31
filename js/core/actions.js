@@ -191,11 +191,22 @@ function setDraft(key, value) {
 
 // Lit l'apparence en cours dans Skinoskope (servi à la même adresse, donc lisible)
 function readSkinoskope() {
+  // 1. Lien collé par l'utilisateur (version en ligne)
+  const pasted = document.getElementById('skinoLink');
+  if (pasted && pasted.value.trim()) {
+    try {
+      const param = new URL(pasted.value.trim()).searchParams.get('s');
+      const look = param && decodeLook(param);
+      if (look) return look;
+    } catch (e) { /* lien invalide : on tente la lecture directe */ }
+    toast('Lien Skinoskope illisible, apparence par défaut');
+  }
+  // 2. Lecture directe de l'éditeur (même adresse, en local)
   try {
     const param = new URLSearchParams(document.getElementById('skino').contentWindow.location.search).get('s');
     return param ? decodeLook(param) : null;
   } catch (e) {
-    return null; // Skinoskope absent ou servi ailleurs : apparence par défaut
+    return null; // autre adresse : apparence par défaut
   }
 }
 

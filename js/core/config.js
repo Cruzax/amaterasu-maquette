@@ -47,9 +47,11 @@ const DOFUSDB = {
   head: (id, sex) => `https://api.dofusdb.fr/img/heads/SmallHead_${id * 10 + (sex === 'female' ? 1 : 0)}.png`,
 };
 
-// Éditeur d'apparence (lien vers la palette de Tnul.Songes, servi à la même adresse)
-// En ligne (GitHub Pages) Skinoskope n'est pas publié : null = repli sur le symbole de classe
-const SKINOSKOPE_URL = location.hostname.endsWith('github.io') ? null : 'skinoskope/';
+// Éditeur d'apparence Skinoskope (Tnul.Songes)
+// - en local : lien skinoskope/ servi à la même adresse, l'apparence choisie est lue automatiquement
+// - en ligne (GitHub Pages) : version Netlify, autre adresse, on colle le lien du skin
+const SKINOSKOPE_URL = location.hostname.endsWith('github.io') ? 'https://tnulsonges.netlify.app/palette/' : 'skinoskope/';
+const SKINOSKOPE_SAME_ORIGIN = !/^https?:/.test(SKINOSKOPE_URL);
 
 // Bannières de profil au choix
 const BANNERS = {
