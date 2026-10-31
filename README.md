@@ -2,13 +2,16 @@
 
 Maquette de la nouvelle interface du portail de guilde. Données 100 % fictives.
 
+**En ligne :** https://cruzax.github.io/amaterasu-maquette/
+
 **Ouvrir :** lancer un serveur dans ce dossier puis aller sur http://localhost:8766/
 
 ```bash
 python -m http.server 8766
 ```
 
-Le serveur est nécessaire pour l'éditeur d'apparence (Skinoskope), qui doit être servi à la même adresse
+En ligne, l'éditeur d'apparence vient de https://tnulsonges.netlify.app/palette/ (on colle le lien du skin).
+En local, le serveur est nécessaire pour l'éditeur d'apparence (Skinoskope), qui doit être servi à la même adresse
 que la maquette pour qu'on puisse lire le personnage créé. Le reste marche aussi en double-cliquant `index.html`.
 
 ## Pages
