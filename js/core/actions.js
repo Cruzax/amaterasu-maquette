@@ -342,3 +342,37 @@ function removeJob(index) {
   toast(`${j.n} retiré de tes métiers`);
   render();
 }
+
+/* ---------- Suivi d'une demande de forgemagie ---------- */
+// Le forgemage rend la demande : elle repart dans « Ouvertes »
+function giveUpJob(index) {
+  const j = jobs[index];
+  j.st = 'open';
+  delete j.to;
+  toast(`Tu as rendu la demande : ${j.t}`);
+  render();
+}
+
+// Le demandeur retire sa demande (deux clics)
+function cancelJob(index) {
+  confirmThen('job-' + index, () => {
+    const [j] = jobs.splice(index, 1);
+    toast(`Demande annulée : ${j.t}`);
+    render();
+  });
+}
+
+// Pop-up « Terminer » validée : jets obtenus + exo, la demande passe dans « Terminées »
+function submitFinishJob(index) {
+  const j = jobs[index];
+  j.result = (j.stats || []).map((s, k) => {
+    const v = Number(document.getElementById('fin-' + k).value);
+    return Math.min(s.max, Math.max(0, isNaN(v) ? s.target : v));
+  });
+  if (j.exo) j.exoOk = document.getElementById('finExo').checked;
+  j.st = 'done';
+  feed.unshift([me.id, `a terminé la FM ${j.t} pour ${M(j.by).name}`, 'à l’instant']);
+  closeAll();
+  toast(`FM terminée : ${j.t}`);
+  render();
+}

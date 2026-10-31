@@ -29,3 +29,10 @@
 .jet.perfect b { color: var(--c-kin); }
 .jet.perfect i { background: var(--c-kin); }
 .job-note { margin: 2px 0 6px; font-size: var(--fs-sm); color: #d8cbc8; font-style: italic; }
+
+/* Suivi des demandes */
+.job-act { margin-left: auto; display: inline-flex; gap: 6px; }
+.job .who .job-act .btn { margin-left: 0; }
+.jet.miss b { color: #ff8a82; }
+.jet.miss i { background: #ff8a82; }
+.jet-aim { margin-left: 6px; font-weight: 500; color: var(--c-ash); }

@@ -386,3 +386,5 @@
 .modal-foot-empty { padding: 0; border: 0; margin-top: 24px; }
 .drawer.modal .dj-head { margin: 0 0 6px; padding-right: 50px; }
 .drawer.modal h4:first-child { margin-top: 18px; }
+.fin-head { display: flex; align-items: center; gap: 14px; padding-right: 48px; margin-bottom: 16px; }
+.fin-head h2 { margin: 0 0 2px; font-size: var(--fs-lg); }

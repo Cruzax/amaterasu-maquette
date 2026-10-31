@@ -37,19 +37,38 @@ pages.atelier = {
         ${j.item ? `<img class="item-img job-item" src="${j.item.img}" width="56" height="56" alt="" title="${j.item.type}, niveau ${j.item.level}">` : ''}
         <span class="tag ${j.st === 'done' ? 'ok' : 'kin'}">${j.j}</span>${j.runes ? ' <span class="tag">Runes fournies</span>' : ''}
         <b>${j.t}</b>
-        ${j.stats && j.stats.length ? `
-          <div class="job-stats">
-            ${j.stats.map(s => `
-              <div class="jet ${s.target >= s.max ? 'perfect' : ''}">
-                <span>${s.label}</span>
-                <b>${s.target}<small> / ${s.max}</small></b>
-                <i style="width:${Math.min(100, s.target / s.max * 100)}%"></i>
-              </div>`).join('')}
-          </div>` : ''}
+        ${j.stats && j.stats.length ? `<div class="job-stats">${j.stats.map((s, k) => this.jet(s, j.result && j.result[k])).join('')}</div>` : ''}
+        ${j.st === 'done' && j.exo && j.exoOk !== undefined ? `<span class="tag ${j.exoOk ? 'ok' : ''}">Exo ${j.exo} ${j.exoOk ? 'réussi' : 'raté'}</span>` : ''}
         <div class="k">${kamas(j.k)} <small>kamas</small></div>
         <div class="who">${av(M(j.by), 'sm')}${owner}
-          ${j.st === 'open' ? `<button class="btn sm" onclick="takeJob(${j.i})">Je m’en charge</button>` : ''}
+          <span class="job-act">${this.actions(j)}</span>
         </div>
       </div>`;
+  },
+
+  // Jet visé ; une fois terminé, jet obtenu (rouge s'il est sous la valeur visée)
+  jet(s, got) {
+    const v = got === undefined || got === null ? s.target : got;
+    const cls = v >= s.max ? 'perfect' : got !== undefined && got !== null && got < s.target ? 'miss' : '';
+    return `
+      <div class="jet ${cls}">
+        <span>${s.label}</span>
+        <b>${v}<small> / ${s.max}</small>${got !== undefined && got !== null && got !== s.target ? `<small class="jet-aim"> visé ${s.target}</small>` : ''}</b>
+        <i style="width:${Math.min(100, v / s.max * 100)}%"></i>
+      </div>`;
+  },
+
+  // Boutons selon le statut et selon qui regarde (demandeur, forgemage, autre membre)
+  actions(j) {
+    if (j.st === 'open') {
+      return j.by === me.id
+        ? `<button class="btn ghost sm" onclick="cancelJob(${j.i})">${state.confirm === 'job-' + j.i ? 'Confirmer' : 'Annuler'}</button>`
+        : `<button class="btn sm" onclick="takeJob(${j.i})">Je m’en charge</button>`;
+    }
+    if (j.st === 'taken' && j.to === me.id) {
+      return `<button class="btn ghost sm" onclick="giveUpJob(${j.i})">Abandonner</button>
+              <button class="btn sm" onclick="openFinishJob(${j.i})">Terminer</button>`;
+    }
+    return '';
   },
 };

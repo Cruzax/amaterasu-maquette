@@ -385,3 +385,32 @@ function copySkinLink(memberId, index = 0) {
     .then(() => toast('Lien du skin copié'))
     .catch(() => { toast('Copie impossible, lien : ' + url.slice(0, 60) + '…'); });
 }
+
+/* ---------- Terminer une demande de forgemagie ---------- */
+function openFinishJob(index) {
+  const j = jobs[index];
+  openDrawer(`
+    <div class="fin-head">
+      ${j.item ? `<img class="item-img" src="${j.item.img}" width="64" height="64" alt="">` : ''}
+      <div><h2>${j.t}</h2><div class="ash">Pour ${M(j.by).name}, ${kamas(j.k)} kamas</div></div>
+    </div>
+    <form class="rec-form" onsubmit="event.preventDefault();submitFinishJob(${index})">
+      ${(j.stats || []).length ? `
+        <fieldset class="rec-field">
+          <legend>Jets obtenus</legend>
+          <div class="rec-achs-pick">${j.stats.map((s, k) => `
+            <label class="ach-check jet-pick">
+              <span><b>${s.label}</b><small>Visé : ${s.target} / ${s.max}</small></span>
+              <input class="input jet-target" id="fin-${k}" type="number" min="0" max="${s.max}" value="${s.target}" aria-label="${s.label} obtenu">
+              <em>/ ${s.max}</em>
+            </label>`).join('')}
+          </div>
+        </fieldset>` : ''}
+      ${j.exo ? `<label class="ev-check"><input type="checkbox" id="finExo" checked> Exo ${j.exo} réussi</label>` : ''}
+      <div class="modal-foot">
+        <span></span>
+        <button class="btn" type="submit">Valider la FM</button>
+      </div>
+    </form>
+  `, 'modal-sm');
+}
