@@ -39,7 +39,6 @@ pages.atelier = {
         <b>${j.t}</b>
         ${j.stats && j.stats.length ? `
           <div class="job-stats">
-            <span class="job-stats-h">Jets à respecter</span>
             ${j.stats.map(s => `
               <div class="jet ${s.target >= s.max ? 'perfect' : ''}">
                 <span>${s.label}</span>
@@ -47,7 +46,6 @@ pages.atelier = {
                 <i style="width:${Math.min(100, s.target / s.max * 100)}%"></i>
               </div>`).join('')}
           </div>` : ''}
-        ${j.note ? `<p class="job-note">« ${escHtml(j.note)} »</p>` : ''}
         <div class="k">${kamas(j.k)} <small>kamas</small></div>
         <div class="who">${av(M(j.by), 'sm')}${owner}
           ${j.st === 'open' ? `<button class="btn sm" onclick="takeJob(${j.i})">Je m’en charge</button>` : ''}

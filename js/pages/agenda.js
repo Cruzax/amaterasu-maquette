@@ -50,11 +50,9 @@ pages.agenda = {
           <span class="tag kin">${e.cat}</span>${mine ? ' <span class="tag ok">Inscrit</span>' : ''}
           <h3>${e.title}</h3>
           ${e.quest ? `<div class="ev-quest">📜 ${escHtml(e.quest)}</div>` : ''}
-          ${e.dungeon ? `<div class="ev-quest">⚔️ ${e.dungeon}, niv. ${DJ(e.dungeon).level}</div>` : ''}
-          <p>${e.desc}</p>
           <div class="who">
             <span class="avs">${e.parts.map(id => av(M(id), 'sm')).join('')}</span>
-            Organisé par ${M(e.org).name}${e.wait.length ? `, ${e.wait.length} en attente` : ''}
+            ${e.wait.length ? `${e.wait.length} en attente` : ''}
           </div>
         </div>
         <div class="act">

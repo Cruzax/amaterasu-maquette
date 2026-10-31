@@ -127,3 +127,15 @@
   .bday { flex-wrap: wrap; }
   .bday .btn { margin-left: 0; }
 }
+
+/* Accueil épuré : bandeau + deux colonnes */
+.sun-card { margin-bottom: var(--gap); }
+.home-2 { display: grid; grid-template-columns: 1fr 1.2fr; gap: var(--gap); align-items: start; }
+.home-2 > * { grid-area: auto; }
+.home-2 .todo ul { grid-template-columns: 1fr; }
+.home-2 .todo li { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 6px 14px; }
+.home-2 .todo li b { flex: 1 1 100%; }
+.home-2 .todo li span { flex: 1 1 200px; }
+.feed-link { color: var(--c-ember); margin-left: 4px; }
+.feed-link:hover { text-decoration: underline; }
+@media (max-width: 1180px) { .home-2 { grid-template-columns: 1fr; } }

@@ -102,7 +102,6 @@
   margin: 0;
   letter-spacing: .01em;
 }
-.top .guild { color: var(--c-ash); font-size: var(--fs-sm); margin-left: 4px; padding-top: 8px; }
 
 .search {
   margin-left: auto;
@@ -164,7 +163,7 @@
 
   .top { padding: 14px var(--page-x); }
   .top h1 { font-size: 24px; }
-  .top .guild, .search span, .search kbd, .me div { display: none; }
+  .search span, .search kbd, .me div { display: none; }
   .search { width: auto; }
   .page { padding-bottom: 100px; }
 }
@@ -195,7 +194,6 @@
 .page-tools .chips { flex-wrap: nowrap; gap: 6px; }
 .page-tools .chip { white-space: nowrap; padding: 7px 12px; }
 /* Quand la page a ses outils : on cache le nom de la guilde, la recherche générale devient une icône */
-.top:has(.page-tools:not(:empty)) .guild,
 .top:has(.page-tools:not(:empty)) .search span,
 .top:has(.page-tools:not(:empty)) .search kbd { display: none; }
 .top:has(.page-tools:not(:empty)) .search { width: auto; flex: none; }

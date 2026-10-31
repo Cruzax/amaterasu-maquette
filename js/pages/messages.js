@@ -52,7 +52,7 @@ pages.messages = {
         <header class="dm-head">
           <button class="iconbtn dm-back" onclick="state.conv=null;render()" aria-label="Retour">${ico('x', 16)}</button>
           <span class="chan-ico lg">#</span>
-          <div><b>${GUILD_CHANNEL.name}</b><div class="ash xsmall">${GUILD_CHANNEL.topic}, ${members.length} membres</div></div>
+          <div><b>${GUILD_CHANNEL.name}</b></div>
         </header>
         <div class="dm-msgs chat" id="dmMsgs">${guildChat.map((x, i) => {
           const m = M(x.from), grouped = i > 0 && guildChat[i - 1].from === x.from;

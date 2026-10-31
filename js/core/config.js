@@ -7,7 +7,6 @@ const NOW = new Date(2026, 9, 31, 15, 12);
 
 // Nom affiché de la guilde
 const GUILD_NAME = 'Amaterasu';
-const GUILD_TAGLINE = 'Amaterasu';
 
 // Couleurs de fond des avatars (cycliques)
 const AVATAR_COLORS = ['#8f1420', '#2c3d6b', '#2f5a35', '#6b4a1f', '#4c2a6b', '#1f5c5a', '#6b2448', '#5a5520'];

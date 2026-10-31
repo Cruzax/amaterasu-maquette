@@ -1,4 +1,4 @@
-/* Page Accueil : prochain événement, actions perso, rang, fil, atelier, records */
+/* Page Accueil : prochain événement, actions perso, fil de la guilde */
 pages.accueil = {
   label: 'Accueil',
   icon: 'home',
@@ -6,23 +6,10 @@ pages.accueil = {
 
   render() {
     return `
-      ${this.birthdayBanner()}
-      <div class="bento">
-        ${this.sunCard()}
+      ${this.sunCard()}
+      <div class="home-2">
         ${this.todo()}
-        ${this.rank()}
         ${this.feed()}
-        ${this.atelier()}
-        ${this.lastRecords()}
-      </div>`;
-  },
-
-  birthdayBanner() {
-    if (!birthdays().length) return '';
-    const m = M(birthdays()[0]);
-    return `
-      <div class="bday">🎂 <span><b>${m.name}</b> fête son anniversaire aujourd’hui.</span>
-        <a class="btn ghost sm" href="#profil/${m.id}/mur">Écrire sur son mur</a>
       </div>`;
   },
 
@@ -48,10 +35,9 @@ pages.accueil = {
         <div class="next">
           ${next.dungeon ? `<button class="next-boss" onclick="openDungeon('${esc(next.dungeon)}')" title="${next.dungeon}">${eventBoss(next, 72)}</button>` : ''}
           <div>
-            <div class="k">Prochain événement : ${next.cat}, ${fmtDay(next.at)} à ${hhmm(next.at)}</div>
+            <div class="k">${fmtDay(next.at)} à ${hhmm(next.at)}</div>
             <h3>${next.title}</h3>
             ${next.quest ? `<div class="ev-quest">📜 ${escHtml(next.quest)}</div>` : ''}
-            <p>${next.desc}</p>
           </div>
         </div>
         <div class="next-act">
@@ -64,78 +50,38 @@ pages.accueil = {
             <button class="btn" onclick="toggleSignup('${next.id}')">${signupLabel(next)}</button>
           </div>
         </div>
-
       </section>`;
   },
 
+  // Deux actions au plus, chacune avec son bouton
   todo() {
     const raid = events.find(e => e.id === 'e2');
-    const open = jobs.filter(j => j.st === 'open');
+    const mine = jobs.filter(j => j.st === 'open' && (me.jobs || []).some(x => x.n === j.j));
     return `
       <section class="panel todo">
-        <div class="ph"><h2>Pour toi</h2><span class="ash small">3 choses à faire</span></div>
+        <div class="ph"><h2>Pour toi</h2></div>
         <ul>
-          <li class="urgent">
-            <b>${raid.title} complet</b>
-            <span>${raid.wait.includes(me.id) ? 'Tu es en liste d’attente.' : 'Rejoins la liste d’attente, des places se libèrent souvent.'}</span>
+          ${raid ? `<li class="urgent">
+            <b>${raid.title}</b>
+            <span>${raid.wait.includes(me.id) ? 'Tu es en liste d’attente.' : raid.parts.length >= raid.max ? 'Complet, la liste d’attente est ouverte.' : 'Des places sont libres.'}</span>
             <button class="btn sm" onclick="toggleSignup('${raid.id}')">${signupLabel(raid)}</button>
-          </li>
-          <li>
-            <b>${plural(open.length, 'demande')} de forgemagie</b>
-            <span>Dont une en Joaillomage, ton métier.</span>
+          </li>` : ''}
+          ${mine.length ? `<li>
+            <b>${plural(mine.length, 'demande')} de FM dans tes métiers</b>
+            <span>${mine.map(j => j.t).join(', ')}</span>
             <a class="btn ghost sm" href="#atelier">Voir l’atelier</a>
-          </li>
-          <li>
-            <b>Un seul record solotage</b>
-            <span>Le Donjon des Tofus est ton seul score. Tente la Salle du Minotot ce soir.</span>
-            <a class="btn ghost sm" href="#defis">Choisir un donjon</a>
-          </li>
+          </li>` : ''}
         </ul>
       </section>`;
   },
 
-  rank() {
-    const top = sortBy('pts');
-    const r = rankOf(me);
-    const above = top[r - 2];
-    const progress = above ? Math.round(me.pts / above.pts * 100) : 100;
-    return `
-      <section class="panel rank">
-        <div class="ph"><h2>Ton rang</h2><a class="more" href="#guilde">Classement</a></div>
-        <div class="big"><b>${r}<sup style="font-size:24px">e</sup></b><span>sur ${members.length}, ${me.pts} points en octobre</span></div>
-        <div class="meter"><i style="width:${progress}%"></i></div>
-        <div class="ash xsmall" style="margin-top:8px">${above ? `${plural(above.pts - me.pts, 'point')} pour dépasser ${above.name}` : 'Tu es premier'}</div>
-        <div class="podium-mini">${top.slice(0, 3).map((m, i) => `<div><em>${i + 1}</em>${av(m, 'sm')}${m.name}<b>${m.pts} pts</b></div>`).join('')}</div>
-      </section>`;
-  },
-
+  // Fil de la guilde, avec l'anniversaire du jour en tête
   feed() {
+    const bdays = birthdays().map(id => `<li class="feed-bday">${av(M(id))}<div><a href="#profil/${id}"><b>${M(id).name}</b></a> fête son anniversaire 🎂 <a class="feed-link" href="#profil/${id}/mur">Écrire sur son mur</a><small>aujourd’hui</small></div></li>`).join('');
     return `
       <section class="panel feed">
         <div class="ph"><h2>Dans la guilde</h2></div>
-        <ol>${feed.map(([id, text, when]) => `<li>${av(M(id))}<div><a href="#profil/${id}"><b>${M(id).name}</b></a> ${text}<small>${when}</small></div></li>`).join('')}</ol>
-      </section>`;
-  },
-
-  atelier() {
-    const open = jobs.filter(j => j.st === 'open').slice(0, 3);
-    return `
-      <section class="panel atelier-mini">
-        <div class="ph"><h2>Atelier</h2><a class="more" href="#atelier">Tout voir</a></div>
-        ${open.map(j => `<div class="mini-row">${av(M(j.by), 'sm')}<div>${j.t}<div class="ash xsmall">${j.j}</div></div><div class="r"><b>${kamas(j.k)}</b>kamas</div></div>`).join('')}
-      </section>`;
-  },
-
-  lastRecords() {
-    // Meilleur record de chaque donjon, top 3
-    const best = Object.entries(records)
-      .map(([dungeon, [[id, , pts]]]) => ({ dungeon, m: M(id), pts }))
-      .sort((a, b) => b.pts - a.pts)
-      .slice(0, 3);
-    return `
-      <section class="panel defis-mini">
-        <div class="ph"><h2>Derniers records</h2><a class="more" href="#defis">Défis</a></div>
-        ${best.map(x => `<div class="mini-row">${av(x.m, 'sm')}<div>${x.m.name}<div class="ash xsmall">${x.dungeon}</div></div><div class="r"><b>${x.pts}</b>points</div></div>`).join('')}
+        <ol>${bdays}${feed.map(([id, text, when]) => `<li>${av(M(id))}<div><a href="#profil/${id}"><b>${M(id).name}</b></a> ${text}<small>${when}</small></div></li>`).join('')}</ol>
       </section>`;
   },
 };

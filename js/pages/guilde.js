@@ -49,7 +49,6 @@ pages.guilde = {
           ${this.viewSwitch()}
           <div class="seg">${Object.entries(RANK_TABS).map(([k, label]) => `<button class="${k === key ? 'on' : ''}" onclick="setFilter('rank','${k}')">${label}</button>`).join('')}</div>
         </div>
-        <span class="ash small">Octobre 2026, ${members.length} membres</span>
       </div>
       ${this.podium(sorted, key)}
       <div class="panel">
@@ -117,13 +116,12 @@ pages.guilde = {
           <div class="chips">${[['Tous', 'Tous les métiers'], ['Artisanat', 'Récolte et artisanat'], ['FM', 'Forgemagie']].map(([k, l]) =>
             `<button class="chip ${state.jobQ === k ? 'on' : ''}" onclick="setFilter('jobQ','${k}')">${l}</button>`).join('')}</div>
         </div>
-        <span class="ash small">Clique sur un membre pour voir son profil</span>
       </div>
       <div class="jobs-grid">${shown.map(n => {
         const list = holders(n);
         return `
           <section class="panel job-card ${list.length ? '' : 'empty'}">
-            <div class="ph"><h2>${n}</h2>${FM_JOB_NAMES.includes(n) ? '<span class="tag kin">FM</span>' : ''}<span class="ash small" style="margin-left:auto">${plural(list.length, 'membre')}</span></div>
+            <div class="ph"><h2>${n}</h2>${FM_JOB_NAMES.includes(n) ? '<span class="tag kin">FM</span>' : ''}</div>
             ${list.length ? `<ul class="job-who">${list.map(({ m, job }) => `
               <li><a href="#profil/${m.id}">${av(m, 'sm')}<span>${m.name}</span></a>
                 <span class="job-lvl ${job.l >= 200 ? 'max' : ''}">niv. ${job.l}</span>

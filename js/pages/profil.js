@@ -66,7 +66,6 @@ pages.profil = {
         <div class="ed-block">
           <h3>Devise</h3>
           <textarea class="input area" id="bioInput" maxlength="140" oninput="saveBio()" placeholder="Une phrase sur toi, tes métiers, tes horaires…">${escHtml(me.bio || '')}</textarea>
-          <div class="ash xsmall">140 caractères maximum</div>
         </div>
         <div class="ed-block">
           <h3>Vitrine <span class="ash small">${me.showcase.length}/${SHOWCASE_MAX}, clique pour épingler</span></h3>
@@ -95,7 +94,6 @@ pages.profil = {
             <option value="">Mois</option>${['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'].map((mo, i) => `<option value="${i + 1}" ${b.m === i + 1 ? 'selected' : ''}>${mo}</option>`).join('')}
           </select>
         </div>
-        <div class="ash xsmall">La guilde verra un bandeau sur l’accueil ce jour-là.</div>
       </div>`;
   },
 
@@ -143,7 +141,6 @@ pages.profil = {
         <div class="main-char-info">
           <img class="cls-logo" src="${DOFUSDB.symbol(ch.breed)}" alt="" loading="lazy">
           <div>
-            <div class="ash xsmall">Personnage principal</div>
             <h3>${ch.n}</h3>
             <div class="ash small">${cls.name} ${ch.sex === 'female' ? 'femme' : 'homme'}, niveau ${ch.l}</div>
             <div class="skin-btns">
@@ -172,7 +169,7 @@ pages.profil = {
     const bday = isBirthday(m) && !own;
     return `
       <section class="panel wall" id="mur">
-        <div class="ph"><h2>Mur</h2><span class="ash small">${plural(list.length, 'commentaire')}</span></div>
+        <div class="ph"><h2>Mur</h2></div>
         ${bday ? `<div class="bday-note">🎂 C’est l’anniversaire de ${m.name} aujourd’hui. Laisse-lui un mot.</div>` : ''}
         <div class="wall-form">
           ${av(me, 'sm')}

@@ -68,7 +68,7 @@ pages.perso = {
           </div>
         </div>` : ''}
       <div class="cc-foot">
-        <span class="ash small">Corps, tête, couleurs, équipements : tout se règle dans l’éditeur. Ton choix est repris à l’étape suivante.</span>
+        <span style="flex:1"></span>
         <button class="btn ghost" onclick="draftStep(1)">Retour</button>
         <button class="btn" onclick="draftStep(3)">Valider l’apparence</button>
       </div>`;

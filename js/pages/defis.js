@@ -27,7 +27,7 @@ pages.defis = {
         </div>
         <div class="dj-main">
           <div class="dj-toolbar bar-row">
-            <span class="ash small">${plural(list.length, 'donjon')}${state.djq || state.tier !== 'Tous' ? ' trouvés' : ''}</span>
+            <span class="ash small">${state.djq || state.tier !== 'Tous' || state.hideDone ? plural(list.length, 'donjon') : ''}</span>
             <button class="btn" onclick="openRecordForm()">Enregistrer un solotage</button>
           </div>
           <div class="dj-scroll" id="djScroll"><div class="tiles">${list.map(d => this.tile(d)).join('') || '<p class="ash">Aucun donjon ne correspond.</p>'}</div></div>
@@ -38,7 +38,7 @@ pages.defis = {
   top10() {
     return `
       <section class="panel">
-        <div class="ph"><h2>Top 10</h2><span class="ash xsmall">tous donjons</span></div>
+        <div class="ph"><h2>Top 10</h2></div>
         <ol class="top10">${allRecords().slice(0, 10).map((r, i) => `
           <li><em>${i + 1}</em>${av(r.m, 'sm')}<div>${r.m.name}<small>${r.dungeon}, ${r.turns} tours</small></div><b>${r.pts}</b></li>`).join('')}
         </ol>
@@ -79,7 +79,7 @@ pages.defis = {
         </div>
         ${recs.length ? `<span class="crown tag kin">👑 ${M(recs[0][0]).name}</span>` : ''}
         ${waiting ? '<span class="waiting tag">En attente</span>' : this.isDone(d) ? '<span class="waiting tag ok">✓ Fait</span>' : ''}
-        <div class="nm">${d.name}<small>${d.boss ? d.boss.name + ', ' : ''}${plural(d.achievements.length, 'succès').replace('succèss', 'succès')}${recs.length ? `, ${plural(recs.length, 'record')}` : ''}</small></div>
+        <div class="nm">${d.name}</div>
       </button>`;
   },
 

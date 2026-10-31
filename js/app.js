@@ -53,7 +53,6 @@ function render() {
 }
 
 function init() {
-  document.querySelector('.top .guild').textContent = GUILD_TAGLINE;
   document.getElementById('backdrop').innerHTML = `
     <div class="bd-moon"></div>
     ${backdropClouds(BACKDROP_CLOUDS)}

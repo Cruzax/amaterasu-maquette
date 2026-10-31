@@ -129,7 +129,7 @@ pages.admin = {
   acces() {
     return `
       <section class="panel">
-        <div class="ph"><h2>Demandes d’accès</h2><span class="ash small">Comptes Discord sans le rôle ${settings.discordRole}</span></div>
+        <div class="ph"><h2>Demandes d’accès</h2></div>
         ${accessRequests.length ? `<ul class="adm-list">${accessRequests.map((r, i) => `
           <li>
             <span class="av" style="background:#333">${r.name[0]}</span>
@@ -200,7 +200,7 @@ pages.admin = {
         </div>
       </section>
       <section class="panel">
-        <div class="ph"><h2>Succès de guilde</h2><span class="ash small">Un succès désactivé n’apparaît plus et ne rapporte plus de points</span></div>
+        <div class="ph"><h2>Succès de guilde</h2></div>
         <ul class="adm-list">${achievements.map(a => {
           const off = disabledAchievements.includes(a.id);
           return `<li class="${off ? 'off' : ''}">${stamp(a, !off)}<div><b>${a.name}</b> <span class="tag">${a.cat}</span><p class="ash small">${a.desc} ${a.pts} pts, ${a.got.length} membres.</p></div>
