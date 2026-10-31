@@ -92,3 +92,16 @@
 .skin-btns .btn { display: inline-flex; align-items: center; gap: 6px; }
 .char-row .skin-mini { margin-left: auto; }
 .char-row .skin-mini + .tag, .char-row .skin-mini + .btn { margin-left: 0; }
+
+/* Personnaliser : anniversaire, personnages, métiers */
+.prof-editor-2 { grid-template-columns: .8fr 1.3fr 1.1fr; }
+.bday-pick { display: flex; gap: 8px; margin-bottom: 6px; }
+.bday-pick .input { min-width: 0; flex: 1; }
+.ed-rows { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+.ed-row { display: flex; align-items: center; gap: 8px; }
+.ed-row .input { min-width: 0; flex: 1; padding: 7px 10px; }
+.ed-row .ed-num { flex: 0 0 72px; text-align: right; }
+.iconbtn.sm-ico { width: 32px; height: 32px; flex: none; }
+.iconbtn.sm-ico.danger:hover { color: var(--c-ember); border-color: var(--c-laque-hi); }
+.ed-block .btn.sm { display: inline-flex; align-items: center; gap: 6px; }
+@media (max-width: 1180px) { .prof-editor-2 { grid-template-columns: 1fr; } }

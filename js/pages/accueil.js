@@ -18,8 +18,8 @@ pages.accueil = {
   },
 
   birthdayBanner() {
-    if (!birthdays.length) return '';
-    const m = M(birthdays[0]);
+    if (!birthdays().length) return '';
+    const m = M(birthdays()[0]);
     return `
       <div class="bday">🎂 <span><b>${m.name}</b> fête son anniversaire aujourd’hui.</span>
         <a class="btn ghost sm" href="#profil/${m.id}/mur">Écrire sur son mur</a>

@@ -29,7 +29,14 @@ pages.guilde = {
       });
   },
 
+  // Bascule Classement / Métiers, en haut de la page
+  viewSwitch() {
+    return `<div class="seg gview">${[['classement', 'Classement'], ['metiers', 'Métiers']].map(([k, l]) =>
+      `<button class="${state.gView === k ? 'on' : ''}" onclick="setFilter('gView','${k}')">${l}</button>`).join('')}</div>`;
+  },
+
   render() {
+    if (state.gView === 'metiers') return this.jobsView();
     const key = state.rank;
     const sorted = sortBy(key);
     const max = sorted[0][key] || 1;
@@ -38,7 +45,10 @@ pages.guilde = {
 
     return `
       <div class="bar-row">
-        <div class="seg">${Object.entries(RANK_TABS).map(([k, label]) => `<button class="${k === key ? 'on' : ''}" onclick="setFilter('rank','${k}')">${label}</button>`).join('')}</div>
+        <div class="bar-left">
+          ${this.viewSwitch()}
+          <div class="seg">${Object.entries(RANK_TABS).map(([k, label]) => `<button class="${k === key ? 'on' : ''}" onclick="setFilter('rank','${k}')">${label}</button>`).join('')}</div>
+        </div>
         <span class="ash small">Octobre 2026, ${members.length} membres</span>
       </div>
       ${this.podium(sorted, key)}
@@ -93,9 +103,40 @@ pages.guilde = {
       </div>`;
   },
 
+  // Qui a quoi : un bloc par métier, membres du plus haut niveau au plus bas
+  jobsView() {
+    const holders = n => members
+      .map(m => ({ m, job: (m.jobs || []).find(j => j.n === n) }))
+      .filter(x => x.job)
+      .sort((a, b) => b.job.l - a.job.l);
+    const shown = DOFUS_JOBS.filter(n => state.jobQ === 'Tous' || (state.jobQ === 'FM') === FM_JOB_NAMES.includes(n));
+    return `
+      <div class="bar-row">
+        <div class="bar-left">
+          ${this.viewSwitch()}
+          <div class="chips">${[['Tous', 'Tous les métiers'], ['Artisanat', 'Récolte et artisanat'], ['FM', 'Forgemagie']].map(([k, l]) =>
+            `<button class="chip ${state.jobQ === k ? 'on' : ''}" onclick="setFilter('jobQ','${k}')">${l}</button>`).join('')}</div>
+        </div>
+        <span class="ash small">Clique sur un membre pour voir son profil</span>
+      </div>
+      <div class="jobs-grid">${shown.map(n => {
+        const list = holders(n);
+        return `
+          <section class="panel job-card ${list.length ? '' : 'empty'}">
+            <div class="ph"><h2>${n}</h2>${FM_JOB_NAMES.includes(n) ? '<span class="tag kin">FM</span>' : ''}<span class="ash small" style="margin-left:auto">${plural(list.length, 'membre')}</span></div>
+            ${list.length ? `<ul class="job-who">${list.map(({ m, job }) => `
+              <li><a href="#profil/${m.id}">${av(m, 'sm')}<span>${m.name}</span></a>
+                <span class="job-lvl ${job.l >= 200 ? 'max' : ''}">niv. ${job.l}</span>
+                <i style="width:${job.l / 2}%"></i></li>`).join('')}</ul>`
+              : '<p class="ash small">Personne dans la guilde.</p>'}
+          </section>`;
+      }).join('')}</div>`;
+  },
+
   // Recherche en direct sans perdre le focus
   after() {
     const input = document.getElementById('guildSearch');
+    if (!input) return;
     input.oninput = () => {
       state.q = input.value;
       render();

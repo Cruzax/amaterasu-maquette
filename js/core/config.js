@@ -18,6 +18,10 @@ const EVENT_CATEGORIES = ['Tous', 'Donjon', 'Quête', 'Raid', 'Succès', 'PvP', 
 // Métiers de forgemagie (filtres de l'atelier)
 const FM_JOBS = ['Tous', 'Joaillomage', 'Costumage', 'Cordomage', 'Sculptemage', 'Forgemage', 'Façomage'];
 
+// Métiers de Dofus (récolte, artisanat, forgemagie)
+const DOFUS_JOBS = ['Alchimiste', 'Bijoutier', 'Bricoleur', 'Bûcheron', 'Chasseur', 'Cordonnier', 'Façonneur', 'Forgeron', 'Mineur', 'Paysan', 'Pêcheur', 'Sculpteur', 'Tailleur', 'Joaillomage', 'Cordomage', 'Costumage', 'Façomage', 'Forgemage', 'Sculptemage'];
+const FM_JOB_NAMES = ['Joaillomage', 'Cordomage', 'Costumage', 'Façomage', 'Forgemage', 'Sculptemage'];
+
 // Tranches de niveau (filtres des défis) : [min, max]
 const LEVEL_TIERS = {
   'Tous': [0, 999],

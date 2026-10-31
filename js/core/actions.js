@@ -298,3 +298,47 @@ function saveSkin(index) {
   toast(`Nouveau skin enregistré pour ${ch.n}`);
   render();
 }
+
+/* ---------- Profil : anniversaire, personnages, métiers ---------- */
+function setBday(key, value) {
+  me.bday = { ...(me.bday || {}), [key]: value ? Number(value) : undefined };
+}
+
+function renameChar(index, name) {
+  const n = name.trim();
+  if (n) me.chars[index].n = n;
+  render();
+}
+
+function setCharLevel(index, level) {
+  me.chars[index].l = Math.min(200, Math.max(1, Number(level) || 1));
+  render();
+}
+
+function deleteChar(index) {
+  if (me.chars.length === 1) return toast('Il te faut au moins un personnage');
+  confirmThen('char-' + index, () => {
+    const [ch] = me.chars.splice(index, 1);
+    toast(`${ch.n} a été supprimé`);
+    render();
+  });
+}
+
+function addJob() {
+  me.jobs = me.jobs || [];
+  const free = DOFUS_JOBS.find(n => !me.jobs.some(j => j.n === n));
+  if (!free) return;
+  me.jobs.push({ n: free, l: 1 });
+  render();
+}
+
+function setJob(index, key, value) {
+  me.jobs[index][key] = key === 'l' ? Math.min(200, Math.max(1, Number(value) || 1)) : value;
+  render();
+}
+
+function removeJob(index) {
+  const [j] = me.jobs.splice(index, 1);
+  toast(`${j.n} retiré de tes métiers`);
+  render();
+}

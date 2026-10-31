@@ -41,5 +41,26 @@ me.jobs = [
   { n: 'Paysan',      l: 60 },
 ];
 
-// Anniversaires du jour (ids)
-const birthdays = ['akane'];
+// Métiers des autres membres : id -> [[métier, niveau], ...]
+const MEMBER_JOBS = {
+  yoru:   [['Forgeron', 200], ['Forgemage', 200], ['Mineur', 200]],
+  akane:  [['Tailleur', 200], ['Costumage', 180], ['Alchimiste', 150]],
+  tsuki:  [['Cordonnier', 200], ['Cordomage', 200], ['Costumage', 140]],
+  hoshi:  [['Alchimiste', 200], ['Paysan', 180]],
+  ren:    [['Sculpteur', 190], ['Sculptemage', 160], ['Bûcheron', 200]],
+  mizu:   [['Façonneur', 200], ['Façomage', 200], ['Sculptemage', 180], ['Joaillomage', 90]],
+  kitsu:  [['Chasseur', 200], ['Pêcheur', 170]],
+  shiro:  [['Bricoleur', 160], ['Mineur', 120]],
+  raiden: [['Forgeron', 140], ['Forgemage', 100]],
+  sora:   [['Paysan', 40]],
+  kuro:   [['Bûcheron', 110], ['Pêcheur', 80]],
+};
+for (const [id, list] of Object.entries(MEMBER_JOBS)) members.find(m => m.id === id).jobs = list.map(([n, l]) => ({ n, l }));
+
+// Anniversaires { d: jour, m: mois }
+const BIRTHDAYS = { kaze: { d: 14, m: 3 }, akane: { d: 31, m: 10 }, yoru: { d: 2, m: 11 }, tsuki: { d: 21, m: 6 }, mizu: { d: 8, m: 12 } };
+for (const [id, b] of Object.entries(BIRTHDAYS)) members.find(m => m.id === id).bday = b;
+
+// Membres dont c'est l'anniversaire aujourd'hui (ids)
+const isBirthday = m => !!m.bday && m.bday.d === NOW.getDate() && m.bday.m === NOW.getMonth() + 1;
+const birthdays = () => members.filter(isBirthday).map(m => m.id);

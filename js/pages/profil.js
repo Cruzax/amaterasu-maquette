@@ -74,7 +74,64 @@ pages.profil = {
             <button class="pick ${me.showcase.includes(a.id) ? 'on' : ''}" onclick="toggleShowcase('${a.id}')">${stamp(a, true)}<span>${a.name}</span></button>`).join('')}
           </div>
         </div>
+      </section>
+      <section class="panel prof-editor prof-editor-2">
+        ${this.editBday()}
+        ${this.editChars()}
+        ${this.editJobs()}
       </section>`;
+  },
+
+  editBday() {
+    const b = me.bday || {};
+    return `
+      <div class="ed-block">
+        <h3>Anniversaire</h3>
+        <div class="bday-pick">
+          <select class="input" aria-label="Jour" onchange="setBday('d', this.value)">
+            <option value="">Jour</option>${Array.from({ length: 31 }, (_, i) => `<option ${b.d === i + 1 ? 'selected' : ''}>${i + 1}</option>`).join('')}
+          </select>
+          <select class="input" aria-label="Mois" onchange="setBday('m', this.value)">
+            <option value="">Mois</option>${['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'].map((mo, i) => `<option value="${i + 1}" ${b.m === i + 1 ? 'selected' : ''}>${mo}</option>`).join('')}
+          </select>
+        </div>
+        <div class="ash xsmall">La guilde verra un bandeau sur l’accueil ce jour-là.</div>
+      </div>`;
+  },
+
+  editChars() {
+    return `
+      <div class="ed-block">
+        <h3>Personnages</h3>
+        <div class="ed-rows">${me.chars.map((ch, i) => `
+          <div class="ed-row">
+            ${classIcon(ch.breed, 28)}
+            <input class="input" value="${escHtml(ch.n)}" maxlength="20" aria-label="Pseudo" onchange="renameChar(${i}, this.value)">
+            <input class="input ed-num" type="number" min="1" max="200" value="${ch.l}" aria-label="Niveau" onchange="setCharLevel(${i}, this.value)">
+            ${i === 0 ? `<span class="tag kin" title="Personnage principal">${ico('star', 12)}</span>` : `<button class="iconbtn sm-ico" title="Mettre principal" onclick="setMainChar(${i})">${ico('star', 14)}</button>`}
+            <button class="iconbtn sm-ico danger" title="Supprimer ${escHtml(ch.n)}" onclick="deleteChar(${i})">${state.confirm === 'char-' + i ? '✓' : ico('x', 14)}</button>
+          </div>`).join('')}
+        </div>
+        <button class="btn ghost sm" onclick="startCharacter()">${ico('plus', 14)} Nouveau personnage</button>
+      </div>`;
+  },
+
+  editJobs() {
+    const jobs = me.jobs || [];
+    return `
+      <div class="ed-block">
+        <h3>Métiers</h3>
+        <div class="ed-rows">${jobs.map((j, i) => `
+          <div class="ed-row">
+            <select class="input" aria-label="Métier" onchange="setJob(${i}, 'n', this.value)">
+              ${DOFUS_JOBS.map(n => `<option ${j.n === n ? 'selected' : ''} ${n !== j.n && jobs.some(x => x.n === n) ? 'disabled' : ''}>${n}</option>`).join('')}
+            </select>
+            <input class="input ed-num" type="number" min="1" max="200" value="${j.l}" aria-label="Niveau" onchange="setJob(${i}, 'l', this.value)">
+            <button class="iconbtn sm-ico danger" title="Retirer ${j.n}" onclick="removeJob(${i})">${ico('x', 14)}</button>
+          </div>`).join('') || '<p class="ash small">Aucun métier renseigné.</p>'}
+        </div>
+        <button class="btn ghost sm" onclick="addJob()" ${jobs.length >= DOFUS_JOBS.length ? 'disabled' : ''}>${ico('plus', 14)} Nouveau métier</button>
+      </div>`;
   },
 
   mainChar(m) {
@@ -112,7 +169,7 @@ pages.profil = {
 
   wall(m, own) {
     const list = comments[m.id] || [];
-    const bday = birthdays.includes(m.id) && !own;
+    const bday = isBirthday(m) && !own;
     return `
       <section class="panel wall" id="mur">
         <div class="ph"><h2>Mur</h2><span class="ash small">${plural(list.length, 'commentaire')}</span></div>

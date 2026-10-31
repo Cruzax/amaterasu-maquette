@@ -7,6 +7,8 @@ const state = {
   sortDir: 1,         // 1 croissant, -1 décroissant
   fClass: 'Toutes',   // annuaire : filtre par classe (id) ou 'Toutes'
   fRole: 'Tous',      // annuaire : filtre par rôle
+  gView: 'classement', // guilde : classement | metiers
+  jobQ: 'Tous',       // guilde > métiers : Tous | Artisanat | FM
   tier: 'Tous',       // tranche de niveau des donjons
   djq: '',            // recherche de donjon
   hideDone: false,    // défis : masquer les donjons déjà faits

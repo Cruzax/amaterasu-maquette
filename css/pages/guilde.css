@@ -45,3 +45,20 @@
   .podium { grid-template-columns: 1fr; gap: 8px; }
   .tbl .hide-m { display: none; }
 }
+
+/* Bascule Classement / Métiers */
+.bar-left { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+/* Vue Métiers : qui a quoi */
+.jobs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; align-items: start; }
+.job-card { padding: 16px 18px; }
+.job-card.empty { opacity: .55; }
+.job-card .ph { margin-bottom: 10px; }
+.job-card h2 { font-size: var(--fs-md); }
+.job-who { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.job-who li { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-bottom: 5px; }
+.job-who a { display: flex; align-items: center; gap: 8px; font-size: 14px; min-width: 0; }
+.job-who a:hover span { text-decoration: underline; }
+.job-who li i { position: absolute; left: 0; bottom: 0; height: 2px; border-radius: 2px; background: var(--c-laque-hi); opacity: .7; }
+.job-lvl { font-size: var(--fs-sm); color: var(--c-ash); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.job-lvl.max { color: var(--c-kin); font-weight: 700; }
