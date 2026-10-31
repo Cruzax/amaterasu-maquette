@@ -206,3 +206,18 @@
 .page-tools .hide-done { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-size: var(--fs-sm); color: var(--c-ash); cursor: pointer; }
 .page-tools .hide-done input { accent-color: var(--c-laque-hi); }
 .page-tools .hide-done:has(input:checked) { color: var(--c-washi); }
+
+/* ---------- Corrections téléphone ---------- */
+/* La colonne de contenu ne s'élargit plus à la taille de son plus large enfant (planning, filtres…) */
+.shell > * { min-width: 0; }
+@media (max-width: 760px) {
+  .rail a.seal, .me { display: none; }
+  .rail { gap: 0; }
+  .rail a { font-size: 9.5px; padding: 8px 0 6px; min-width: 0; }
+  .rail a svg { width: 20px; height: 20px; }
+  .rail .rail-me .av { width: 22px; height: 22px; font-size: 10px; }
+  .rail .rail-count { right: 2px; }
+  .top { gap: 8px; }
+  .top h1 { font-size: 22px; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1 1 auto; }
+  .top .search { margin-left: 0; }
+}

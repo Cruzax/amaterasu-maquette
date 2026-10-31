@@ -140,3 +140,7 @@
   .dj-main { position: static; height: auto; }
   .dj-scroll { overflow: visible; padding-right: 0; }
 }
+@media (max-width: 1180px) {
+  /* Sur petit écran, les donjons d'abord, le Top 10 et les envois ensuite */
+  .defis .side { order: 2; }
+}

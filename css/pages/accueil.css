@@ -118,3 +118,12 @@
 .next-boss { border: 0; background: none; padding: 0; flex: none; }
 .next-boss .boss-img { filter: drop-shadow(0 6px 16px #000c); transition: transform var(--t-fast); }
 .next-boss:hover .boss-img { transform: scale(1.06); }
+@media (max-width: 760px) {
+  .sun-card .next-act { flex-direction: column; align-items: stretch; }
+  .sun-card .next-btns { flex-wrap: wrap; }
+  .sun-card .next-btns .btn { flex: 1 1 140px; justify-content: center; }
+  .sun-card .next { align-items: flex-start; }
+  .next-boss .boss-img { width: 56px; height: 56px; }
+  .bday { flex-wrap: wrap; }
+  .bday .btn { margin-left: 0; }
+}

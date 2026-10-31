@@ -92,3 +92,10 @@
 /* Nom de la quête liée à l'événement */
 .ev-quest { display: inline-flex; align-items: center; gap: 6px; margin: 0 6px 8px 0; padding: 3px 10px; border-radius: var(--r-pill); background: var(--c-kin-bg); border: 1px solid #d9a44144; color: var(--c-kin); font-size: var(--fs-sm); }
 .sun-card .ev-quest { margin: 2px 0 6px; }
+@media (max-width: 760px) {
+  .ticket { grid-template-columns: 64px 1fr; }
+  .ticket .when b { font-size: 28px; }
+  .ticket .what { padding: 14px; }
+  .ticket .act { flex-wrap: wrap; padding: 12px 14px; }
+  .ticket .act .btn { flex: 1 1 100%; }
+}
