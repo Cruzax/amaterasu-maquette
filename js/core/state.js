@@ -9,6 +9,7 @@ const state = {
   fRole: 'Tous',      // annuaire : filtre par rôle
   tier: 'Tous',       // tranche de niveau des donjons
   djq: '',            // recherche de donjon
+  hideDone: false,    // défis : masquer les donjons déjà faits
   day: null,          // jour sélectionné dans l'agenda (chaîne toDateString) ou null
   jobF: 'Tous',       // métier de forgemagie
   achCat: 'Tous',     // catégorie de succès

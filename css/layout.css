@@ -203,3 +203,6 @@
   .top { flex-wrap: wrap; }
   .page-tools { order: 10; flex-basis: 100%; margin-left: 0; overflow-x: auto; }
 }
+.page-tools .hide-done { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-size: var(--fs-sm); color: var(--c-ash); cursor: pointer; }
+.page-tools .hide-done input { accent-color: var(--c-laque-hi); }
+.page-tools .hide-done:has(input:checked) { color: var(--c-washi); }

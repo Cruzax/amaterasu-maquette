@@ -4,11 +4,17 @@ pages.defis = {
   icon: 'sword',
   title: 'Défis solotage',
 
+  // Déjà fait = record validé ou solotage en attente de validation
+  isDone(d) {
+    return (records[d.name] || []).some(r => r[0] === me.id) || pendingRecords.some(p => p.dungeon === d.name && p.by === me.id);
+  },
+
   filtered() {
     const [min, max] = LEVEL_TIERS[state.tier];
     const q = noAccent(state.djq);
     return DUNGEONS.filter(d => d.level >= min && d.level <= max &&
-      (!q || noAccent(d.name).includes(q) || (d.boss && noAccent(d.boss.name).includes(q))));
+      (!q || noAccent(d.name).includes(q) || (d.boss && noAccent(d.boss.name).includes(q))) &&
+      !(state.hideDone && this.isDone(d)));
   },
 
   render() {
@@ -72,7 +78,7 @@ pages.defis = {
           <span class="lv"><small>niveau</small>${d.level}</span>${bossImg(d, 116)}
         </div>
         ${recs.length ? `<span class="crown tag kin">👑 ${M(recs[0][0]).name}</span>` : ''}
-        ${waiting ? '<span class="waiting tag">En attente</span>' : ''}
+        ${waiting ? '<span class="waiting tag">En attente</span>' : this.isDone(d) ? '<span class="waiting tag ok">✓ Fait</span>' : ''}
         <div class="nm">${d.name}<small>${d.boss ? d.boss.name + ', ' : ''}${plural(d.achievements.length, 'succès').replace('succèss', 'succès')}${recs.length ? `, ${plural(recs.length, 'record')}` : ''}</small></div>
       </button>`;
   },
@@ -81,7 +87,8 @@ pages.defis = {
   toolbar() {
     return `
       <input class="input" id="djSearch" placeholder="Donjon ou boss…" value="${escHtml(state.djq)}" aria-label="Chercher un donjon ou un boss">
-      <div class="chips">${Object.keys(LEVEL_TIERS).map(t => `<button class="chip ${state.tier === t ? 'on' : ''}" onclick="setFilter('tier','${esc(t)}');pages.defis.toResults()">${t === 'Tous' ? '' : `<i class="tier-dot" style="background:${levelColor(LEVEL_TIERS[t][0])}"></i>`}${t}</button>`).join('')}</div>`;
+      <div class="chips">${Object.keys(LEVEL_TIERS).map(t => `<button class="chip ${state.tier === t ? 'on' : ''}" onclick="setFilter('tier','${esc(t)}');pages.defis.toResults()">${t === 'Tous' ? '' : `<i class="tier-dot" style="background:${levelColor(LEVEL_TIERS[t][0])}"></i>`}${t}</button>`).join('')}</div>
+      <label class="hide-done"><input type="checkbox" ${state.hideDone ? 'checked' : ''} onchange="setFilter('hideDone', this.checked);pages.defis.toResults()"> Masquer les faits</label>`;
   },
 
   // Nouveau filtre ou nouvelle recherche : revient en haut de la liste des donjons
