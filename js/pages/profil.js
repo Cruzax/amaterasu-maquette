@@ -89,6 +89,10 @@ pages.profil = {
             <div class="ash xsmall">Personnage principal</div>
             <h3>${ch.n}</h3>
             <div class="ash small">${cls.name} ${ch.sex === 'female' ? 'femme' : 'homme'}, niveau ${ch.l}</div>
+            <div class="skin-btns">
+              ${m === me ? `<button class="btn sm" onclick="openSkinEditor(0)">${ico('edit', 14)} Changer de skin</button>` : ''}
+              <button class="btn ghost sm" onclick="copySkinLink('${m.id}', 0)">Copier le lien du skin</button>
+            </div>
           </div>
         </div>
       </section>`;
@@ -152,6 +156,7 @@ pages.profil = {
           <div class="char-row">
             ${classIcon(ch.breed, 34)}
             <div><b>${ch.n}</b><span class="ash xsmall">${classById(ch.breed).name}, niv. ${ch.l}</span></div>
+            ${own ? `<button class="btn ghost sm skin-mini" onclick="openSkinEditor(${i})" title="Changer le skin de ${ch.n}">Skin</button>` : ''}
             ${i === 0 ? `<span class="tag kin">${ico('star', 12)} Principal</span>` : edit ? `<button class="btn ghost sm" onclick="setMainChar(${i})">Mettre principal</button>` : ''}
           </div>`).join('')}
         </div>

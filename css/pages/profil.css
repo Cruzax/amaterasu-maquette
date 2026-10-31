@@ -88,3 +88,7 @@
   .wall-form { grid-template-columns: 1fr; }
   .wall-form .av { display: none; }
 }
+.skin-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.skin-btns .btn { display: inline-flex; align-items: center; gap: 6px; }
+.char-row .skin-mini { margin-left: auto; }
+.char-row .skin-mini + .tag, .char-row .skin-mini + .btn { margin-left: 0; }

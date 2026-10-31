@@ -287,3 +287,14 @@ function createFmRequest() {
   if (!location.hash.startsWith('#atelier')) location.hash = 'atelier';
   else render();
 }
+
+/* ---------- Skin d'un personnage ---------- */
+function saveSkin(index) {
+  const look = readSkinoskope();
+  if (!look) return toast(SKINOSKOPE_SAME_ORIGIN ? 'Skin introuvable dans l’éditeur' : 'Colle d’abord le lien de ton skin');
+  const ch = me.chars[index];
+  Object.assign(ch, look);
+  closeAll();
+  toast(`Nouveau skin enregistré pour ${ch.n}`);
+  render();
+}

@@ -1,9 +1,11 @@
 /* Panneau latéral : détail d'un donjon, formulaire de solotage, détail d'un succès */
 
-function openDrawer(html, wide = false) {
+// size : false (normal), true ou 'wide' (large), 'xl' (presque plein écran, pour Skinoskope)
+function openDrawer(html, size = false) {
   const drawer = document.getElementById('drawer');
   drawer.innerHTML = `<button class="iconbtn x" onclick="closeAll()" aria-label="Fermer">${ico('x', 18)}</button>` + html;
-  drawer.classList.toggle('wide', wide);
+  drawer.classList.toggle('wide', size === true || size === 'wide');
+  drawer.classList.toggle('xl', size === 'xl');
   drawer.classList.add('on');
   drawer.setAttribute('aria-hidden', 'false');
   document.getElementById('scrim').classList.add('on');
@@ -324,4 +326,37 @@ async function onFmItem(item) {
   } catch (e) {
     document.getElementById('fmStats').innerHTML = '<p class="ash small">Impossible de charger les jets depuis DofusDB.</p>';
   }
+}
+
+/* ---------- Changer de skin (Skinoskope) ---------- */
+const skinUrl = ch => `${SKINOSKOPE_URL || 'https://tnulsonges.netlify.app/palette/'}?s=${lookParam(ch)}`;
+
+function openSkinEditor(index = 0) {
+  const ch = me.chars[index];
+  openDrawer(`
+    <h2>Changer le skin de ${ch.n}</h2>
+    <p class="ash small">Modifie corps, tête, couleurs et équipements, puis enregistre : le nouveau skin s’affichera sur ton profil.</p>
+    <div class="skin-frame"><iframe id="skino" src="${skinUrl(ch)}" title="Éditeur Skinoskope"></iframe></div>
+    ${SKINOSKOPE_SAME_ORIGIN ? '' : `
+      <div class="cc-paste">
+        <p>Sur la version en ligne, le skin ne peut pas être lu tout seul. Ouvre l’éditeur en grand, fais ton skin, puis colle ici l’adresse de la page.</p>
+        <div class="cc-paste-row">
+          <a class="btn ghost sm" href="${skinUrl(ch)}" target="_blank" rel="noopener">Ouvrir l’éditeur en grand</a>
+          <input class="input" id="skinoLink" placeholder="${SKINOSKOPE_URL}?s=…" aria-label="Lien du skin Skinoskope">
+        </div>
+      </div>`}
+    <div class="cc-foot">
+      <button class="btn ghost" onclick="copySkinLink('${me.id}', ${index})">Copier le lien actuel</button>
+      <span style="flex:1"></span>
+      <button class="btn ghost" onclick="closeAll()">Annuler</button>
+      <button class="btn" onclick="saveSkin(${index})">Enregistrer le skin</button>
+    </div>
+  `, 'xl');
+}
+
+function copySkinLink(memberId, index = 0) {
+  const url = skinUrl(charsOf(M(memberId))[index]);
+  (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject())
+    .then(() => toast('Lien du skin copié'))
+    .catch(() => { toast('Copie impossible, lien : ' + url.slice(0, 60) + '…'); });
 }
