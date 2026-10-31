@@ -132,10 +132,8 @@
   padding: 4px 8px 16px 0;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  scrollbar-color: var(--c-laque) transparent;
+  scrollbar-color: #251a1c transparent;
 }
-.dj-scroll::-webkit-scrollbar { width: 8px; }
-.dj-scroll::-webkit-scrollbar-thumb { background: #b3121f99; border-radius: 8px; }
 @media (max-width: 1180px) {
   .dj-main { position: static; height: auto; }
   .dj-scroll { overflow: visible; padding-right: 0; }

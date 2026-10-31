@@ -382,3 +382,7 @@
 /* Le champ « valeur visée » garde sa petite largeur dans les formulaires */
 .rec-form .jet-pick .jet-target { width: 78px; flex: none; }
 .fm-empty { display: grid; place-items: center; min-height: 200px; color: var(--c-hair-2); }
+.drawer.modal.sm { width: min(520px, 94vw); }
+.modal-foot-empty { padding: 0; border: 0; margin-top: 24px; }
+.drawer.modal .dj-head { margin: 0 0 6px; padding-right: 50px; }
+.drawer.modal h4:first-child { margin-top: 18px; }

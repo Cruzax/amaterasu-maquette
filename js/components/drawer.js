@@ -7,7 +7,8 @@ function openDrawer(html, size = false) {
   drawer.classList.toggle('wide', size === true || size === 'wide');
   drawer.classList.toggle('xl', size === 'xl');
   // 'modal' et 'xl' : pop-up au centre de l'écran (formulaires, éditeur de skin)
-  drawer.classList.toggle('modal', size === 'modal' || size === 'xl');
+  drawer.classList.toggle('modal', size === 'modal' || size === 'xl' || size === 'modal-sm');
+  drawer.classList.toggle('sm', size === 'modal-sm');
   drawer.classList.add('on');
   drawer.setAttribute('aria-hidden', 'false');
   document.getElementById('scrim').classList.add('on');
@@ -33,32 +34,38 @@ function openDungeon(name) {
   const recs = records[name] || [];
   const pend = pendingRecords.filter(p => p.dungeon === name);
 
+  // Pop-up : à gauche le boss et les records, à droite les succès du donjon
   openDrawer(`
     <div class="dj-head">
       ${bossImg(d, 96)}
       <div>
         <h2>${d.name}</h2>
-        <div class="ash">Niveau ${d.level}, boss : ${d.boss ? d.boss.name : 'inconnu'}</div>
+        <div class="ash">Niveau ${d.level}${d.boss ? `, ${d.boss.name}` : ''}</div>
       </div>
     </div>
-
-    <h4>Records</h4>
-    ${recs.length
-      ? `<div class="list-plain">${recs.map(([id, turns, pts, achs = []], i) => `
-          <div><span class="rec-who">${i + 1}. ${M(id).name} <span class="rec-achs">${achs.filter(a => djAch(d, a) && djAch(d, a).challenge).map(a => chalIcon(djAch(d, a), 18)).join('')}</span></span><span>${pts} pts, ${turns} tours</span></div>`).join('')}</div>`
-      : '<p class="ash">Personne n’a encore soloté ce donjon.</p>'}
-
-    ${pend.length ? `
-      <h4>En attente de validation</h4>
-      <div class="list-plain">${pend.map(p => `<div>${M(p.by).name}<span>${p.pts} pts, ${p.turns} tours</span></div>`).join('')}</div>` : ''}
-
-    <h4>Succès du donjon <span class="ash small">${d.achievements.length}</span></h4>
-    <ul class="dj-achs">${d.achievements.map(a => `
-      <li>${chalIcon(a, 32)}<div><b>${achLabel(a)}</b><span>${a.challenge && CHALLENGES[a.challenge] ? CHALLENGES[a.challenge].desc : a.desc}</span></div><em>${a.pts}</em></li>`).join('')}
-    </ul>
-
-    <button class="btn block" style="margin-top:20px" onclick="openRecordForm('${esc(name)}')">Enregistrer mon solotage</button>
-  `);
+    <div class="modal-grid">
+      <div class="modal-col">
+        <h4>Records</h4>
+        ${recs.length
+          ? `<div class="list-plain">${recs.map(([id, turns, pts, achs = []], i) => `
+              <div><span class="rec-who">${i + 1}. ${M(id).name} <span class="rec-achs">${achs.filter(x => djAch(d, x) && djAch(d, x).challenge).map(x => chalIcon(djAch(d, x), 18)).join('')}</span></span><span>${pts} pts, ${turns} tours</span></div>`).join('')}</div>`
+          : '<p class="ash">Personne n’a encore soloté ce donjon.</p>'}
+        ${pend.length ? `
+          <h4>En attente</h4>
+          <div class="list-plain">${pend.map(p => `<div>${M(p.by).name}<span>${p.pts} pts, ${p.turns} tours</span></div>`).join('')}</div>` : ''}
+      </div>
+      <div class="modal-col">
+        <h4>Succès</h4>
+        <ul class="dj-achs">${d.achievements.map(x => `
+          <li>${chalIcon(x, 32)}<div><b>${achLabel(x)}</b><span>${x.challenge && CHALLENGES[x.challenge] ? CHALLENGES[x.challenge].desc : x.desc}</span></div><em>${x.pts}</em></li>`).join('')}
+        </ul>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <span></span>
+      <button class="btn" onclick="openRecordForm('${esc(name)}')">Enregistrer mon solotage</button>
+    </div>
+  `, 'modal');
 }
 
 /* ---------- Formulaire de solotage ---------- */
@@ -203,8 +210,9 @@ function openAchievement(id) {
     <h4>Obtenu par ${plural(a.got.length, 'membre')}</h4>
     ${a.got.length
       ? `<div class="list-plain">${a.got.map(mid => `<div><a href="#profil/${mid}" onclick="closeAll()">${M(mid).name}</a><span>${M(mid).role}</span></div>`).join('')}</div>`
-      : '<p class="ash">Personne ne l’a encore. Sois le premier.</p>'}
-  `);
+      : '<p class="ash">Personne ne l’a encore.</p>'}
+    <div class="modal-foot modal-foot-empty"></div>
+  `, 'modal-sm');
 }
 
 /* ---------- Création d'événement ---------- */
