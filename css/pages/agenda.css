@@ -1,0 +1,94 @@
+/* Page Agenda */
+
+/* Bande des 7 prochains jours */
+.week { display: grid; grid-template-columns: repeat(7, 1fr); gap: var(--gap-sm); margin-bottom: 22px; }
+.day {
+  border: 1px solid var(--c-hair);
+  border-radius: var(--r-md);
+  padding: 12px;
+  background: var(--c-glass);
+  min-height: 96px;
+}
+.day { display: flex; flex-direction: column; align-items: stretch; text-align: left; cursor: pointer; }
+.day:hover { border-color: var(--c-hair-2); background: var(--c-ink-2); }
+.day.today { border-color: #e0303c88; }
+.day.sel { border-color: var(--c-laque-hi); box-shadow: inset 0 0 0 1px var(--c-laque-hi); background: linear-gradient(180deg, var(--c-ink-red), var(--c-ink)); }
+.day .dn { color: var(--c-ash); font-size: var(--fs-xs); }
+.day .dd { font-family: var(--font-serif); font-size: var(--fs-xl); font-weight: 800; line-height: 1.1; }
+.day .ev-none { margin-top: 6px; font-size: 11.5px; color: #5d5457; }
+.day-filter { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; font-family: var(--font-serif); font-size: var(--fs-lg); font-weight: 800; }
+.day-filter .linklike { font-family: var(--font-sans); font-size: var(--fs-sm); font-weight: 500; color: var(--c-ember); }
+.day-empty { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.day-empty p { margin: 0; color: var(--c-ash); }
+.day .ev-dot {
+  margin-top: 6px;
+  font-size: 11.5px;
+  padding: 3px 7px;
+  border-radius: var(--r-xs);
+  background: var(--c-ink-red);
+  color: var(--c-rose);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* Événement en forme de ticket */
+.ticket {
+  display: grid;
+  grid-template-columns: 110px 1fr 220px;
+  border: 1px solid var(--c-hair);
+  border-radius: var(--r-lg);
+  background: var(--c-glass);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.ticket .when {
+  background: linear-gradient(180deg, #3a0910, #1c0609);
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  border-right: 2px dashed var(--c-sumi);
+}
+.ticket .when b { font-family: var(--font-serif); font-size: 38px; line-height: 1; }
+.ticket .when span { font-size: var(--fs-sm); color: var(--c-rose); }
+.ticket .when .hour { color: var(--c-washi); margin-top: 6px; }
+.ticket .what { padding: 18px 22px; }
+.ticket h3 { font-family: var(--font-serif); font-size: 21px; margin: 6px 0 4px; }
+.ticket p { margin: 0; color: #d8cbc8; font-size: 14px; }
+.ticket .who { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: var(--fs-sm); color: var(--c-ash); }
+.ticket .act {
+  padding: 18px;
+  border-left: 1px solid var(--c-hair);
+  display: flex; flex-direction: column; justify-content: center; gap: var(--gap-sm);
+}
+.places { font-size: var(--fs-sm); color: var(--c-ash); }
+.places b { color: var(--c-washi); font-size: var(--fs-base); }
+
+@media (max-width: 1180px) {
+  .ticket { grid-template-columns: 90px 1fr; }
+  .ticket .act {
+    grid-column: 1 / -1;
+    border-left: 0; border-top: 1px solid var(--c-hair);
+    flex-direction: row; align-items: center; justify-content: space-between;
+  }
+  .ticket .act .meter { flex: 1; }
+}
+@media (max-width: 760px) {
+  .week { grid-template-columns: repeat(7, 64px); overflow-x: auto; }
+}
+
+/* Boss du donjon lié à l'événement */
+.ticket .what { position: relative; }
+.ticket .what.has-boss { padding-right: 150px; }
+.ev-boss { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 4px; border: 0; background: radial-gradient(circle, #2a070c 0%, transparent 70%); padding: 4px; color: var(--c-ash); font-size: var(--fs-xs); border-radius: var(--r-md); }
+.ev-boss .boss-img { filter: drop-shadow(0 6px 14px #000c); transition: transform var(--t-fast); }
+.ev-boss:hover .boss-img { transform: scale(1.06); }
+.ev-boss:hover span { color: var(--c-washi); }
+.ev-dj { margin-top: -2px; margin-bottom: 6px; }
+.day .ev-dot { display: flex; align-items: center; gap: 4px; }
+.day .ev-dot .boss-img { flex: none; }
+@media (max-width: 760px) {
+  .ticket .what.has-boss { padding-right: 22px; }
+  .ev-boss { position: static; transform: none; flex-direction: row; margin-bottom: 8px; }
+  .ev-boss .boss-img { width: 48px; height: 48px; }
+}
+
+/* Nom de la quête liée à l'événement */
+.ev-quest { display: inline-flex; align-items: center; gap: 6px; margin: 0 6px 8px 0; padding: 3px 10px; border-radius: var(--r-pill); background: var(--c-kin-bg); border: 1px solid #d9a44144; color: var(--c-kin); font-size: var(--fs-sm); }
+.sun-card .ev-quest { margin: 2px 0 6px; }

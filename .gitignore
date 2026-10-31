@@ -1,0 +1,6 @@
+# Lien local vers Tnul.Songes (environ 700 Mo), non publié
+skinoskope
+skinoskope/
+node_modules/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,334 @@
+/* Composants réutilisables */
+
+/* ---------- Avatar ---------- */
+.av {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-weight: 700; font-size: 14px;
+  flex: none; color: #fff;
+  box-shadow: inset 0 0 0 2px #ffffff1a;
+}
+.av.sm { width: 28px; height: 28px; font-size: var(--fs-xs); }
+.av.lg { width: 84px; height: 84px; font-size: 32px; font-family: var(--font-serif); }
+.avs { display: flex; }
+.avs .av { margin-left: -6px; box-shadow: 0 0 0 2px var(--c-ink); }
+
+/* ---------- Panneau ---------- */
+.panel {
+  background: var(--c-glass);
+  border: 1px solid var(--c-hair);
+  border-radius: var(--r-lg);
+  padding: var(--pad-panel);
+}
+.panel h2, .h2 {
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: var(--fs-lg);
+  margin: 0;
+}
+.ph { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+.ph .more { margin-left: auto; color: var(--c-ember); font-size: var(--fs-sm); }
+.ph .more:hover { text-decoration: underline; }
+
+/* Ligne d'outils (filtres à gauche, action à droite) */
+.bar-row {
+  display: flex; gap: 12px;
+  align-items: center; justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+/* ---------- Boutons ---------- */
+.btn {
+  border: 0;
+  border-radius: var(--r-sm);
+  padding: 10px 16px;
+  font-weight: 700; font-size: 14px;
+  background: var(--c-laque);
+  color: #fff;
+  box-shadow: var(--glow-red);
+  text-align: center;
+}
+.btn:hover { background: var(--c-laque-hi); }
+.btn.ghost { background: transparent; border: 1px solid var(--c-hair-2); box-shadow: none; }
+.btn.ghost:hover { border-color: var(--c-laque-hi); }
+.btn.sm { padding: 7px 12px; font-size: var(--fs-sm); }
+.btn.block { width: 100%; }
+
+.iconbtn {
+  width: 40px; height: 40px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--c-hair);
+  background: var(--c-ink);
+  display: grid; place-items: center;
+  position: relative;
+  color: var(--c-washi);
+}
+.iconbtn .dot {
+  position: absolute; top: 8px; right: 9px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--c-ember);
+}
+
+/* ---------- Puces de filtre ---------- */
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  border: 1px solid var(--c-hair-2);
+  background: transparent;
+  border-radius: var(--r-pill);
+  padding: 7px 14px;
+  font-size: var(--fs-sm);
+  color: var(--c-ash);
+}
+.chip:hover { color: var(--c-washi); }
+.chip.on { background: var(--c-washi); color: var(--c-sumi); border-color: var(--c-washi); font-weight: 700; }
+
+/* ---------- Contrôle segmenté ---------- */
+.seg {
+  display: inline-flex;
+  padding: 4px;
+  border-radius: 12px;
+  background: var(--c-ink);
+  border: 1px solid var(--c-hair);
+}
+.seg button {
+  border: 0; background: transparent;
+  padding: 8px 16px;
+  border-radius: 9px;
+  color: var(--c-ash);
+  font-weight: 700; font-size: 13.5px;
+}
+.seg button.on { background: var(--c-laque); color: #fff; }
+
+/* ---------- Champ texte ---------- */
+.input {
+  background: var(--c-ink);
+  border: 1px solid var(--c-hair);
+  border-radius: var(--r-sm);
+  padding: 9px 12px;
+  min-width: 240px;
+}
+
+/* ---------- Étiquettes ---------- */
+.tag {
+  display: inline-block;
+  font-size: 11.5px; font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--r-xs);
+  background: var(--c-ink-red);
+  color: #ff9f97;
+}
+.tag.kin { background: var(--c-kin-bg); color: var(--c-kin); }
+.tag.ok { background: var(--c-ok-bg); color: var(--c-ok); }
+
+/* ---------- Jauge ---------- */
+.meter { height: 8px; border-radius: 99px; background: var(--c-track); overflow: hidden; }
+.meter i {
+  display: block; height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--c-laque), var(--c-ember));
+}
+
+/* ---------- Liste simple (profil, records) ---------- */
+.list-plain { display: flex; flex-direction: column; gap: 8px; }
+.list-plain div {
+  display: flex; justify-content: space-between;
+  border: 1px solid var(--c-hair);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  font-size: 14px;
+}
+.list-plain span { color: var(--c-ash); }
+
+.stats3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-sm); }
+.stats3 div {
+  border: 1px solid var(--c-hair);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 12.5px;
+  color: var(--c-ash);
+}
+.stats3 b { display: block; font-family: var(--font-serif); font-size: 24px; color: var(--c-washi); }
+
+/* ---------- Voile + panneau latéral ---------- */
+.scrim {
+  position: fixed; inset: 0;
+  background: #000a;
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--t-fast);
+  z-index: 20;
+}
+.scrim.on { opacity: 1; pointer-events: auto; }
+
+.drawer {
+  position: fixed; top: 0; right: 0;
+  height: 100vh;
+  width: min(440px, 100%);
+  background: var(--c-ink);
+  border-left: 1px solid var(--c-hair-2);
+  z-index: 21;
+  transform: translateX(100%);
+  transition: transform var(--t-med) ease;
+  overflow: auto;
+  padding: 26px;
+}
+.drawer.on { transform: none; }
+.drawer .x { position: absolute; top: 18px; right: 18px; }
+.drawer h2 { font-family: var(--font-serif); font-size: var(--fs-xl); margin: 14px 0 2px; }
+.drawer h4 { font-family: var(--font-serif); font-size: var(--fs-md); margin: 24px 0 10px; }
+
+/* ---------- Palette de recherche (Ctrl+K) ---------- */
+.palette {
+  position: fixed; left: 50%; top: 14vh;
+  transform: translateX(-50%) scale(.98);
+  width: min(560px, 92vw);
+  background: var(--c-ink);
+  border: 1px solid var(--c-hair-2);
+  border-radius: var(--r-md);
+  z-index: 22;
+  opacity: 0; pointer-events: none;
+  transition: var(--t-fast);
+  box-shadow: 0 30px 80px #000;
+}
+.palette.on { opacity: 1; pointer-events: auto; transform: translateX(-50%); }
+.palette input {
+  width: 100%;
+  border: 0; border-bottom: 1px solid var(--c-hair);
+  background: transparent;
+  padding: 16px 18px;
+  font-size: var(--fs-md);
+  outline: none;
+}
+.palette ul { list-style: none; margin: 0; padding: 8px; max-height: 50vh; overflow: auto; }
+.palette li a { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: var(--r-sm); font-size: 14px; }
+.palette li a:hover, .palette li a.sel { background: var(--c-ink-2); }
+.palette li small { margin-left: auto; color: var(--c-ash); }
+
+/* ---------- Notification ---------- */
+.toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translate(-50%, 20px);
+  background: var(--c-washi); color: var(--c-sumi);
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700; font-size: 14px;
+  opacity: 0;
+  transition: var(--t-fast);
+  z-index: 30;
+}
+.toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- Pastille de compteur (messages non lus) ---------- */
+.iconbtn .count {
+  position: absolute; top: -5px; right: -5px;
+  min-width: 18px; height: 18px; padding: 0 5px;
+  border-radius: var(--r-pill);
+  background: var(--c-laque-hi); color: #fff;
+  font-size: 11px; font-weight: 700;
+  display: grid; place-items: center;
+  box-shadow: 0 0 0 2px var(--c-sumi);
+}
+
+/* ---------- Tampon de succès (hanko) ---------- */
+.stamp {
+  width: 48px; height: 48px;
+  flex: none;
+  display: grid; place-items: center;
+  font-size: 22px;
+  border-radius: 12px;
+  border: 1.5px dashed var(--c-hair-2);
+  filter: grayscale(1);
+  opacity: .45;
+  transform: rotate(-4deg);
+}
+.stamp.on {
+  filter: none; opacity: 1;
+  border: 0;
+  background: radial-gradient(circle at 35% 30%, var(--c-laque-hi), var(--c-laque) 60%, #6a0a12);
+  box-shadow: inset 0 0 0 2px #ffffff26, inset 0 0 0 5px var(--c-laque), inset 0 0 0 6px #ffffff40, 0 6px 18px #b3121f44;
+}
+.stamp.on.rare {
+  background: radial-gradient(circle at 35% 30%, #f0c46a, var(--c-kin) 55%, #7a5414);
+  box-shadow: inset 0 0 0 2px #ffffff40, inset 0 0 0 5px var(--c-kin), inset 0 0 0 6px #fff6, 0 6px 22px #d9a44155;
+}
+.stamp.lg { width: 64px; height: 64px; font-size: 30px; border-radius: 16px; }
+.stamp.xl { width: 96px; height: 96px; font-size: 46px; border-radius: 22px; }
+
+/* ---------- Classes ---------- */
+.cls-ico { border-radius: 50%; flex: none; background: var(--c-ink-2); }
+
+/* Aperçu Skinoskope recadré sur le personnage (iframe à 1536px de large) */
+.look-crop {
+  position: relative;
+  height: 320px;
+  overflow: hidden;
+  background: #151515;
+  -webkit-mask-image: radial-gradient(70% 80% at 50% 50%, #000 60%, transparent 100%);
+          mask-image: radial-gradient(70% 80% at 50% 50%, #000 60%, transparent 100%);
+}
+.look-crop iframe {
+  position: absolute;
+  left: 50%; top: -100px;
+  margin-left: -550px;
+  width: 1536px; height: 640px;
+  border: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 760px) {
+  .input { min-width: 0; width: 100%; }
+  .toast { bottom: 90px; }
+}
+
+/* ---------- Formulaire d'événement ---------- */
+.chip-radio { cursor: pointer; }
+.chip-radio input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.chip-radio span { display: inline-block; border: 1px solid var(--c-hair-2); border-radius: var(--r-pill); padding: 7px 14px; font-size: var(--fs-sm); color: var(--c-ash); }
+.chip-radio input:checked + span { background: var(--c-washi); color: var(--c-sumi); border-color: var(--c-washi); font-weight: 700; }
+.chip-radio input:focus-visible + span { outline: 2px solid var(--c-laque-hi); outline-offset: 2px; }
+.ev-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 10px; }
+.ev-row label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.ev-row .input { min-width: 0; width: 100%; color-scheme: dark; }
+.ev-check { flex-direction: row !important; align-items: center; gap: 8px !important; font-size: 14px; }
+.ev-check input { accent-color: var(--c-laque-hi); }
+
+/* ---------- Recherche de donjon (autocomplétion) ---------- */
+.field { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.djp { position: relative; }
+.djp-field { display: flex; align-items: center; gap: 10px; padding: 6px 10px; border-radius: var(--r-sm); border: 1px solid var(--c-hair-2); background: var(--c-ink); }
+.djp-field:focus-within { border-color: var(--c-laque-hi); box-shadow: 0 0 0 3px #e0303c22; }
+.djp-pic { width: 30px; height: 30px; display: grid; place-items: center; color: var(--c-ash); flex: none; }
+.djp-q { flex: 1; min-width: 0; border: 0; background: none; outline: none; padding: 6px 0; font-size: 14px; }
+.djp-clear { border: 0; background: none; color: var(--c-ash); display: grid; place-items: center; padding: 4px; border-radius: 50%; }
+.djp-clear:hover { color: var(--c-ember); }
+.djp-clear[hidden] { display: none; }
+.djp-list {
+  position: absolute; z-index: 5; left: 0; right: 0; top: calc(100% + 6px);
+  list-style: none; margin: 0; padding: 6px;
+  max-height: 360px; overflow: auto;
+  background: var(--c-ink-2); border: 1px solid var(--c-hair-2); border-radius: var(--r-md);
+  box-shadow: 0 18px 50px #000c;
+}
+.djp-list li { display: flex; align-items: center; gap: 12px; padding: 7px 10px; border-radius: var(--r-sm); cursor: pointer; }
+.djp-list li.on { background: linear-gradient(90deg, var(--c-ink-red), transparent); }
+.djp-list li span { flex: 1; min-width: 0; }
+.djp-list li b { display: block; font-size: 14px; font-weight: 500; }
+.djp-list li small { display: block; color: var(--c-ash); font-size: var(--fs-xs); }
+.djp-list li em { font-style: normal; font-size: var(--fs-xs); color: var(--c-kin); white-space: nowrap; }
+.djp-list mark { background: none; color: var(--c-ember); font-weight: 700; }
+.djp-list .djp-none { color: var(--c-ash); cursor: default; font-size: var(--fs-sm); }
+
+/* ---------- Objet DofusDB (formulaire FM) ---------- */
+.item-img { object-fit: contain; flex: none; }
+.fm-item { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: var(--r-md); background: linear-gradient(90deg, var(--c-ink-red), var(--c-ink-2)); }
+.fm-item b { display: block; font-size: var(--fs-md); }
+.fm-item .ash { display: block; margin-bottom: 4px; }
+.ach-check.malus { opacity: .55; cursor: default; }
+.fm-row { grid-template-columns: 1fr 1fr; align-items: end; }
+.fm-runes { padding-bottom: 10px; }
+.jet-pick .jet-target { width: 78px; min-width: 0; padding: 6px 8px; text-align: right; }
+.jet-pick .jet-target:disabled { opacity: .4; }
+.jet-pick em { color: var(--c-ash) !important; font-family: var(--font-sans) !important; font-weight: 500 !important; font-size: var(--fs-sm); }
+.look-fallback { display: grid; place-items: center; background: radial-gradient(circle, #2a070c, #120809 70%); }
+.look-fallback img { filter: drop-shadow(0 8px 24px #000c); }

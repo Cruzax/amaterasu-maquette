@@ -1,0 +1,90 @@
+/* Page Profil */
+
+/* En-tête avec bannière */
+.prof-head {
+  position: relative;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--c-hair);
+  padding: 120px 28px 24px;
+  margin-bottom: var(--gap);
+  overflow: hidden;
+}
+.prof-head::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 30%, #050304cc 100%);
+  pointer-events: none;
+}
+.prof-flames { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 70px; z-index: 1; opacity: .95; }
+.prof-id { position: relative; z-index: 2; display: flex; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+.av.xl { width: 116px; height: 116px; font-size: 44px; font-family: var(--font-serif); box-shadow: 0 0 0 4px var(--c-sumi), 0 10px 40px #0008; }
+.prof-name { flex: 1; min-width: 240px; }
+.prof-name h2 { font-family: var(--font-serif); font-weight: 800; font-size: 38px; margin: 0; line-height: 1.1; }
+.prof-sub { color: #e5d4d1; font-size: 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.prof-sub .sep { width: 4px; height: 4px; border-radius: 50%; background: var(--c-ember); }
+.prof-bio { margin: 10px 0 0; max-width: 60ch; color: var(--c-washi); }
+.prof-actions { display: flex; gap: 8px; }
+.prof-actions .btn { display: inline-flex; align-items: center; gap: 8px; }
+
+/* Personnalisation */
+.prof-editor { display: grid; grid-template-columns: 1.2fr 1fr 1.4fr; gap: 24px; margin-bottom: var(--gap); border-color: #e0303c55; }
+.prof-editor h3 { font-family: var(--font-serif); font-size: var(--fs-md); margin: 0 0 10px; }
+.banners { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+.banner-swatch { height: 58px; border-radius: var(--r-sm); border: 2px solid transparent; position: relative; display: flex; align-items: flex-end; padding: 6px; font-size: 11px; text-align: left; }
+.banner-swatch.on { border-color: var(--c-washi); }
+.input.area { width: 100%; min-height: 76px; resize: vertical; font: inherit; }
+.stamp-pick { display: flex; flex-wrap: wrap; gap: 8px; }
+.pick { display: flex; align-items: center; gap: 8px; padding: 6px 10px 6px 6px; border-radius: var(--r-pill); border: 1px solid var(--c-hair-2); background: transparent; font-size: var(--fs-sm); }
+.pick.on { border-color: var(--c-kin); background: var(--c-kin-bg); }
+
+/* Grille principale */
+.prof-grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: var(--gap); align-items: start; }
+.prof-main, .prof-side { display: flex; flex-direction: column; gap: var(--gap); }
+
+/* Personnage principal (rendu Skinoskope recadré) */
+.main-char { padding: 0; overflow: hidden; display: grid; grid-template-columns: 1.3fr 1fr; align-items: center; }
+.main-char-info { display: flex; align-items: center; gap: 14px; padding: 22px; }
+.main-char-info h3 { font-family: var(--font-serif); font-size: var(--fs-xl); margin: 2px 0; }
+.cls-logo { width: 64px; height: 64px; object-fit: contain; }
+
+/* Vitrine */
+.vitrine { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.vit { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; padding: 16px 8px; border-radius: var(--r-md); border: 1px solid var(--c-hair); background: var(--c-ink-2); }
+.vit:hover { border-color: var(--c-kin); }
+.vit b { font-size: 14px; }
+.vit span { color: var(--c-ash); font-size: var(--fs-xs); }
+
+/* Mur */
+.bday-note { padding: 10px 14px; border-radius: var(--r-sm); border: 1px dashed #d9a44166; background: #1a1408; color: var(--c-kin); font-size: 14px; margin-bottom: 14px; }
+.wall-form { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: start; margin-bottom: 18px; }
+.wall-form .input.area { min-height: 48px; }
+.wall-list { list-style: none; margin: 0; padding: 0; }
+.wall-list li { display: flex; gap: 12px; padding: 14px 0; border-top: 1px solid var(--c-hair); position: relative; }
+.wall-body { flex: 1; min-width: 0; }
+.wall-body p { margin: 4px 0 0; overflow-wrap: anywhere; }
+.wall-body a:hover b { text-decoration: underline; }
+.wall-del { position: absolute; right: 0; top: 14px; border: 0; background: transparent; color: var(--c-ash); padding: 4px; border-radius: var(--r-xs); opacity: 0; }
+.wall-list li:hover .wall-del, .wall-del:focus-visible { opacity: 1; }
+.wall-del:hover { color: var(--c-ember); }
+
+/* Personnages */
+.char-list { display: flex; flex-direction: column; gap: 8px; }
+.char-row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--c-hair); border-radius: var(--r-sm); }
+.char-row b { display: block; font-size: 14px; }
+.char-row > :last-child:not(div) { margin-left: auto; }
+.char-row .tag { display: inline-flex; align-items: center; gap: 4px; }
+.linklike { border: 0; background: none; display: inline-flex; align-items: center; gap: 4px; padding: 0; }
+
+@media (max-width: 1180px) {
+  .prof-editor { grid-template-columns: 1fr; }
+  .prof-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .prof-head { padding: 90px 18px 18px; }
+  .av.xl { width: 84px; height: 84px; font-size: 32px; }
+  .prof-name h2 { font-size: 28px; }
+  .main-char { grid-template-columns: 1fr; }
+  .vitrine { grid-template-columns: repeat(2, 1fr); }
+  .wall-form { grid-template-columns: 1fr; }
+  .wall-form .av { display: none; }
+}

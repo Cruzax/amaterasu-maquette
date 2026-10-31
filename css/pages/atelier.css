@@ -1,0 +1,31 @@
+/* Page Atelier de forgemagie */
+.kanban { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
+.col { background: var(--c-glass); border: 1px solid var(--c-hair); border-radius: var(--r-lg); padding: 14px; }
+.col h3 { font-family: var(--font-serif); font-size: 18px; margin: 4px 6px 12px; display: flex; align-items: center; gap: 8px; }
+.col h3 span { font-family: var(--font-sans); font-size: var(--fs-xs); color: var(--c-ash); font-weight: 500; }
+.col .empty { margin: 6px; font-size: 13.5px; color: var(--c-ash); }
+
+.job { border: 1px solid var(--c-hair); border-radius: var(--r-md); padding: 14px; background: var(--c-ink-2); margin-bottom: var(--gap-sm); }
+.job b { display: block; font-size: var(--fs-base); margin: 6px 0 4px; }
+.job .k { font-family: var(--font-serif); font-weight: 800; font-size: var(--fs-lg); color: var(--c-kin); }
+.job .k small { font-family: var(--font-sans); font-size: var(--fs-xs); font-weight: 500; color: var(--c-ash); }
+.job .who { display: flex; align-items: center; gap: 8px; margin-top: var(--gap-sm); font-size: var(--fs-sm); color: var(--c-ash); }
+.job .who .btn { margin-left: auto; }
+
+@media (max-width: 760px) {
+  .kanban { grid-template-columns: 1fr; }
+}
+
+/* Objet DofusDB sur la demande */
+.job { position: relative; }
+.job.has-item { padding-right: 82px; }
+.job-item { position: absolute; top: 12px; right: 12px; border-radius: var(--r-sm); background: radial-gradient(circle, #ffffff12, transparent 70%); }
+.job-stats { display: flex; flex-direction: column; gap: 4px; margin: 8px 0; padding: 8px 10px; border-radius: var(--r-sm); background: #0a0607aa; border: 1px solid var(--c-hair); }
+.job-stats-h { font-size: 11px; color: var(--c-ash); margin-bottom: 2px; }
+.jet { position: relative; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: var(--fs-sm); padding-bottom: 4px; }
+.jet b { font-variant-numeric: tabular-nums; }
+.jet b small { color: var(--c-ash); font-weight: 500; }
+.jet i { position: absolute; left: 0; bottom: 0; height: 2px; border-radius: 2px; background: var(--c-laque-hi); }
+.jet.perfect b { color: var(--c-kin); }
+.jet.perfect i { background: var(--c-kin); }
+.job-note { margin: 2px 0 6px; font-size: var(--fs-sm); color: #d8cbc8; font-style: italic; }

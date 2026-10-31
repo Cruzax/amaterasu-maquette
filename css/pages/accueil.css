@@ -1,0 +1,120 @@
+/* Page Accueil */
+.bento {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas:
+    "sun sun sun"
+    "todo todo rank"
+    "atelier defis feed";
+  gap: var(--gap);
+}
+
+/* Bandeau anniversaire */
+.bday {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: var(--gap);
+  padding: 12px 16px;
+  border-radius: var(--r-md);
+  border: 1px dashed #d9a44166;
+  background: #1a1408;
+  font-size: 14px;
+}
+.bday b { color: var(--c-kin); }
+.bday .btn { margin-left: auto; }
+
+/* Bandeau du prochain événement : petit soleil = compte à rebours, anneau = places remplies */
+.sun-card {
+  grid-area: sun;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-xl);
+  padding: 18px 24px;
+  display: grid;
+  grid-template-columns: 104px auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  background: radial-gradient(60% 160% at 0% 50%, #2a070cee 0%, #0e0708c7 70%);
+  border: 1px solid #ff5a4f22;
+}
+.sun-card .sun-flames { position: absolute; left: 0; right: 0; bottom: -2px; width: 100%; height: 34px; opacity: .9; pointer-events: none; }
+.sun { position: relative; width: 104px; aspect-ratio: 1; display: grid; place-items: center; }
+.sun .sym-eye { filter: drop-shadow(0 0 18px #b3121f88); }
+.spin .tomoes { transform-origin: 50px 50px; animation: spin 14s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.sun-card .count { position: relative; padding-right: 20px; border-right: 1px solid var(--c-hair); }
+.sun-card .count b { display: block; font-family: var(--font-serif); font-weight: 800; font-size: 34px; line-height: 1; }
+.sun-card .count span { font-size: var(--fs-xs); color: var(--c-ash); }
+.sun .ring { position: absolute; inset: 0; transform: rotate(-90deg); }
+.sun-card .next { position: relative; min-width: 0; }
+.sun-card .next .k { color: var(--c-rose); font-size: var(--fs-sm); }
+.sun-card .next h3 { font-family: var(--font-serif); font-size: var(--fs-xl); margin: 2px 0 4px; }
+.sun-card .next p { margin: 0; color: #e5d4d1; font-size: 14px; max-width: 70ch; }
+.sun-card .next-act { position: relative; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.sun-card .next-btns { display: flex; gap: 8px; }
+.sun-card .next-btns .btn { display: inline-flex; align-items: center; gap: 6px; }
+.sun-card .stack { display: flex; align-items: center; gap: 10px; }
+.sun-card .stack .av { box-shadow: 0 0 0 2px #1a0709; }
+
+/* Pour toi */
+.todo { grid-area: todo; }
+.todo ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.todo li {
+  border: 1px solid var(--c-hair);
+  border-radius: var(--r-md);
+  padding: 16px;
+  background: var(--c-ink-2);
+  display: flex; flex-direction: column; gap: var(--gap-sm);
+}
+.todo li.urgent { border-color: #e0303c66; background: linear-gradient(160deg, #25090d, var(--c-ink-2)); }
+.todo li b { font-size: var(--fs-base); }
+.todo li span { color: var(--c-ash); font-size: var(--fs-sm); flex: 1; }
+
+/* Ton rang */
+.rank { grid-area: rank; }
+.rank .big { display: flex; align-items: flex-end; gap: 10px; margin: 2px 0 14px; }
+.rank .big b { font-family: var(--font-serif); font-size: 64px; line-height: .9; color: var(--c-kin); }
+.rank .big span { color: var(--c-ash); font-size: var(--fs-sm); padding-bottom: 6px; }
+.podium-mini { display: flex; flex-direction: column; gap: 8px; margin-top: 18px; }
+.podium-mini div { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.podium-mini em { font-style: normal; width: 16px; color: var(--c-kin); font-family: var(--font-serif); font-weight: 800; }
+.podium-mini b { margin-left: auto; font-weight: 500; color: var(--c-ash); font-size: var(--fs-sm); }
+
+/* Fil d'activité */
+.feed { grid-area: feed; }
+.feed ol { list-style: none; margin: 0; padding: 0; position: relative; }
+.feed ol::before { content: ""; position: absolute; left: 17px; top: 6px; bottom: 6px; width: 1px; background: var(--c-hair-2); }
+.feed li { display: flex; gap: 12px; padding: 9px 0; position: relative; font-size: 14px; }
+.feed li .av { z-index: 1; }
+.feed li small { display: block; color: var(--c-ash); font-size: var(--fs-xs); }
+
+/* Mini listes (atelier, records) */
+.atelier-mini { grid-area: atelier; }
+.defis-mini { grid-area: defis; }
+.mini-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--c-hair); font-size: 14px; }
+.mini-row:first-of-type { border-top: 0; }
+.mini-row .r { margin-left: auto; text-align: right; font-size: var(--fs-sm); color: var(--c-ash); }
+.mini-row .r b { display: block; color: var(--c-washi); font-size: 14px; }
+
+@media (max-width: 1180px) {
+  .bento {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "sun sun" "todo todo" "rank feed" "atelier defis";
+  }
+  .todo ul { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .bento { grid-template-columns: 1fr; grid-template-areas: "sun" "todo" "rank" "feed" "atelier" "defis"; }
+  .sun-card { grid-template-columns: 72px 1fr; gap: 14px; padding: 16px; }
+  .sun { width: 72px; }
+  .sun .sym-eye { width: 64px; height: 64px; }
+  .sun-card .count { border: 0; padding: 0; }
+  .sun-card .next { grid-column: 1 / -1; }
+  .sun-card .next-act { grid-column: 1 / -1; flex-direction: row; justify-content: space-between; align-items: center; }
+}
+
+/* Boss du prochain événement */
+.sun-card .next { display: flex; align-items: center; gap: 16px; }
+.sun-card .next > div { min-width: 0; }
+.next-boss { border: 0; background: none; padding: 0; flex: none; }
+.next-boss .boss-img { filter: drop-shadow(0 6px 16px #000c); transition: transform var(--t-fast); }
+.next-boss:hover .boss-img { transform: scale(1.06); }

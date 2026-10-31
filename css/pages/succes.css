@@ -1,0 +1,49 @@
+/* Page Succès */
+.ach-layout { display: grid; grid-template-columns: 1fr 340px; gap: var(--gap); align-items: start; }
+.ach-side { display: flex; flex-direction: column; gap: var(--gap); position: sticky; top: 90px; }
+
+/* Résumé */
+.ach-summary { display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: center; margin-bottom: var(--gap); }
+.ach-score b { display: block; font-family: var(--font-serif); font-weight: 800; font-size: 64px; line-height: .9; color: var(--c-kin); }
+.ach-score span { color: var(--c-ash); font-size: var(--fs-sm); }
+.ach-progress .meter { margin: 8px 0 12px; }
+.ach-cats { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: var(--fs-sm); color: var(--c-ash); }
+.ach-cats b { color: var(--c-washi); }
+
+/* Cartes */
+.ach-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+.ach {
+  display: flex; gap: 16px; align-items: center;
+  padding: 16px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--c-hair);
+  background: var(--c-ink);
+  text-align: left;
+}
+.ach:hover { border-color: var(--c-hair-2); }
+.ach.got { background: linear-gradient(120deg, #1c080b, var(--c-ink) 60%); }
+.ach-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.ach-txt b { font-size: var(--fs-base); }
+.ach-txt span { color: var(--c-ash); font-size: var(--fs-sm); }
+.ach-txt small { color: var(--c-ash); font-size: var(--fs-xs); }
+.ach-txt small.ok { color: var(--c-ok); }
+.meter.thin { height: 5px; margin-top: 6px; }
+.ach-meta { text-align: right; }
+.ach-meta b { display: block; font-family: var(--font-serif); font-size: var(--fs-lg); color: var(--c-kin); }
+.ach-meta span { font-size: var(--fs-xs); color: var(--c-ash); }
+
+/* Colonnes latérales */
+.ach-mini { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.ach-mini li { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+.ach-mini small { display: block; color: var(--c-ash); font-size: var(--fs-xs); }
+.ach-mini a:hover b { text-decoration: underline; }
+.ach-mini .stamp { width: 40px; height: 40px; font-size: 18px; }
+
+@media (max-width: 1180px) {
+  .ach-layout { grid-template-columns: 1fr; }
+  .ach-side { position: static; }
+}
+@media (max-width: 760px) {
+  .ach-summary { grid-template-columns: 1fr; gap: 12px; }
+  .ach-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amaterasu</title>
+
+  <!-- Polices -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Styles : variables d'abord, puis base, structure, composants, pages -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/accueil.css">
+  <link rel="stylesheet" href="css/pages/agenda.css">
+  <link rel="stylesheet" href="css/pages/guilde.css">
+  <link rel="stylesheet" href="css/pages/defis.css">
+  <link rel="stylesheet" href="css/pages/atelier.css">
+  <link rel="stylesheet" href="css/pages/succes.css">
+  <link rel="stylesheet" href="css/pages/profil.css">
+  <link rel="stylesheet" href="css/pages/perso.css">
+  <link rel="stylesheet" href="css/pages/messages.css">
+  <link rel="stylesheet" href="css/pages/admin.css">
+
+  <!-- Encodage des apparences Skinoskope (?s=) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+</head>
+<body>
+  <!-- Décor de fond : lune rouge, nuages, torii (rempli par app.js) -->
+  <div class="backdrop" id="backdrop" aria-hidden="true"></div>
+
+  <div class="shell">
+    <nav class="rail" id="rail" aria-label="Navigation principale"></nav>
+
+    <div>
+      <header class="top">
+        <h1 id="ptitle"></h1>
+        <span class="guild"></span>
+        <div class="page-tools" id="pageTools"></div>
+        <button class="search" id="openPal" aria-label="Rechercher">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <span>Chercher un membre, un donjon…</span>
+          <kbd>Ctrl K</kbd>
+        </button>
+        <button class="iconbtn" id="msgBtn" aria-label="Messages privés"></button>
+        <button class="me" id="meBtn"></button>
+      </header>
+
+      <main class="page" id="view"></main>
+    </div>
+  </div>
+
+  <!-- Couches flottantes -->
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true"></aside>
+  <div class="palette" id="pal">
+    <input id="palIn" placeholder="Aller à…" aria-label="Rechercher">
+    <ul id="palList"></ul>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <!-- Scripts : l'ordre compte (config > données > outils > composants > pages > app) -->
+  <script src="js/core/symbols.js"></script>
+  <script src="js/core/config.js"></script>
+  <script src="js/core/icons.js"></script>
+  <script src="js/data/classes.js"></script>
+  <script src="js/data/dofusdb-dungeons.js"></script>
+  <script src="js/data/members.js"></script>
+  <script src="js/data/events.js"></script>
+  <script src="js/data/jobs.js"></script>
+  <script src="js/data/dungeons.js"></script>
+  <script src="js/data/feed.js"></script>
+  <script src="js/data/achievements.js"></script>
+  <script src="js/data/comments.js"></script>
+  <script src="js/data/messages.js"></script>
+  <script src="js/data/chat.js"></script>
+  <script src="js/data/admin.js"></script>
+  <script src="js/core/utils.js"></script>
+  <script src="js/core/state.js"></script>
+  <script src="js/core/dofusdb.js"></script>
+  <script src="js/components/toast.js"></script>
+  <script src="js/components/drawer.js"></script>
+  <script src="js/components/palette.js"></script>
+  <script src="js/components/dungeon-picker.js"></script>
+  <script src="js/components/item-picker.js"></script>
+  <script src="js/core/actions.js"></script>
+  <script src="js/core/admin-actions.js"></script>
+  <script src="js/pages/accueil.js"></script>
+  <script src="js/pages/agenda.js"></script>
+  <script src="js/pages/guilde.js"></script>
+  <script src="js/pages/defis.js"></script>
+  <script src="js/pages/atelier.js"></script>
+  <script src="js/pages/succes.js"></script>
+  <script src="js/pages/profil.js"></script>
+  <script src="js/pages/perso.js"></script>
+  <script src="js/pages/messages.js"></script>
+  <script src="js/pages/admin.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

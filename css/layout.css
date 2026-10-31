@@ -1,0 +1,205 @@
+/* Structure générale : rail de navigation, barre du haut, zone de page */
+
+/* Décor de fond fixe : lune rouge, nuages et torii, très discrets */
+.backdrop { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.bd-moon {
+  position: absolute; right: -120px; top: -160px;
+  width: 520px; height: 520px; border-radius: 50%;
+  background: radial-gradient(circle at 42% 40%, #7d1520 0%, #3a0a10 55%, transparent 72%);
+  opacity: .55;
+}
+/* Chaque nuage traverse l'écran de droite à gauche ; durée, délai et hauteur posés en JS */
+.bd-cloud { position: absolute; left: 0; animation: drift 100s linear infinite; will-change: transform; }
+.bd-torii { position: absolute; right: 60px; bottom: -10px; color: #1a0b0e; opacity: .7; }
+@keyframes drift { from { transform: translateX(100vw); } to { transform: translateX(-220px); } }
+.shell { position: relative; z-index: 1; }
+
+.shell {
+  display: grid;
+  grid-template-columns: var(--rail-w) 1fr;
+  min-height: 100vh;
+}
+
+/* ---------- Rail (navigation gauche) ---------- */
+.rail {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 18px 0;
+  border-right: 1px solid var(--c-hair);
+  background: var(--c-sumi);
+  z-index: 5;
+}
+.rail .seal {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #0a0506;
+  border: 1px solid #c8202c66;
+  display: grid;
+  place-items: center;
+  margin-bottom: 22px;
+  box-shadow: 0 8px 30px #b3121f44;
+}
+.rail .seal svg { width: 36px; }
+.rail a {
+  width: 60px;
+  padding: 10px 0 8px;
+  border-radius: var(--r-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--c-ash);
+  font-size: 11px;
+  font-weight: 500;
+  position: relative;
+}
+.rail a svg { width: 22px; height: 22px; }
+.rail a:hover { color: var(--c-washi); background: var(--c-ink-2); }
+.rail a.on { color: var(--c-washi); background: linear-gradient(180deg, var(--c-ink-red), #170709); }
+.rail a.on::before {
+  content: "";
+  position: absolute;
+  left: -12px; top: 14px; bottom: 14px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--c-laque-hi);
+  box-shadow: 0 0 12px var(--c-laque-hi);
+}
+.rail .spacer { flex: 1; }
+.rail .rail-count {
+  position: absolute; top: 4px; right: 8px;
+  min-width: 17px; height: 17px; padding: 0 4px;
+  border-radius: var(--r-pill);
+  background: var(--c-laque-hi); color: #fff;
+  font-size: 10px; font-weight: 700;
+  display: grid; place-items: center;
+}
+.rail .rail-me .av { width: 26px; height: 26px; font-size: 11px; }
+.rail .rail-me.on .av { box-shadow: 0 0 0 2px var(--c-laque-hi); }
+
+/* ---------- Barre du haut ---------- */
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px var(--page-x);
+  background: linear-gradient(180deg, #050304d9 60%, transparent);
+  backdrop-filter: blur(6px);
+}
+.top h1 {
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: var(--fs-2xl);
+  margin: 0;
+  letter-spacing: .01em;
+}
+.top .guild { color: var(--c-ash); font-size: var(--fs-sm); margin-left: 4px; padding-top: 8px; }
+
+.search {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 300px;
+  padding: 9px 12px;
+  border-radius: var(--r-sm);
+  background: var(--c-ink);
+  border: 1px solid var(--c-hair);
+  color: var(--c-ash);
+  font-size: 13.5px;
+  white-space: nowrap;
+}
+.search span { overflow: hidden; text-overflow: ellipsis; }
+.search kbd {
+  margin-left: auto;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  border: 1px solid var(--c-hair-2);
+  border-radius: 5px;
+  padding: 1px 6px;
+}
+
+.me {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 12px 4px 4px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--c-hair);
+  background: var(--c-ink);
+}
+.me b { font-size: 13.5px; display: block; line-height: 1.1; text-align: left; }
+.me small { color: var(--c-ash); font-size: 11.5px; }
+
+/* ---------- Zone de page ---------- */
+.page { padding: 6px var(--page-x) 60px; max-width: 1440px; }
+
+/* ---------- Mobile : le rail devient une barre d'onglets en bas ---------- */
+@media (max-width: 760px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail {
+    position: fixed;
+    top: auto; bottom: 0; left: 0; right: 0;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+    border-right: 0;
+    border-top: 1px solid var(--c-hair);
+    background: #050304f2;
+    backdrop-filter: blur(10px);
+  }
+  .rail .seal, .rail .spacer { display: none; }
+  .rail a { width: auto; flex: 1; }
+  .rail a.on::before { left: 30%; right: 30%; top: -7px; bottom: auto; width: auto; height: 3px; }
+
+  .top { padding: 14px var(--page-x); }
+  .top h1 { font-size: 24px; }
+  .top .guild, .search span, .search kbd, .me div { display: none; }
+  .search { width: auto; }
+  .page { padding-bottom: 100px; }
+}
+
+/* Logo Sharingan : les tomoe tournent en continu */
+.rail .seal { background: radial-gradient(circle, #2a070c, #0a0506 70%); }
+.rail .seal .logo-eye { width: 42px; height: 42px; filter: drop-shadow(0 0 8px #c8202c88); }
+.logo-eye .tomoes { transform-origin: 50px 50px; animation: spin 6s linear infinite; }
+.rail .seal:hover .logo-eye .tomoes { animation-duration: 1.5s; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.rail a.seal { width: 54px; height: 54px; padding: 0; display: grid; place-items: center; border-radius: 50%; margin-bottom: 22px; border: 1px solid #c8202c55; }
+.rail a.seal:hover { background: radial-gradient(circle, #3a0910, #0a0506 70%); }
+.rail .seal .logo-eye { width: 48px; height: 48px; }
+
+/* Barre de navigation quasi invisible : pas de fond, pas de bordure */
+.rail { background: transparent; border-right-color: transparent; }
+.rail a:not(.on):not(.seal) { color: #9a8f92b3; }
+.rail a:not(.on):not(.seal):hover { background: #ffffff08; }
+@media (max-width: 760px) {
+  .rail { background: #050304cc; border-top-color: var(--c-hair); }
+}
+
+/* Outils propres à une page (ex. recherche + filtres des Défis), dans la barre du haut */
+.top h1 { white-space: nowrap; }
+.page-tools { display: flex; align-items: center; gap: 10px; margin-left: 12px; min-width: 0; flex: 1 1 auto; }
+.page-tools:empty { display: none; }
+.page-tools .input { width: 210px; min-width: 120px; flex: 0 1 210px; }
+.page-tools .chips { flex-wrap: nowrap; gap: 6px; }
+.page-tools .chip { white-space: nowrap; padding: 7px 12px; }
+/* Quand la page a ses outils : on cache le nom de la guilde, la recherche générale devient une icône */
+.top:has(.page-tools:not(:empty)) .guild,
+.top:has(.page-tools:not(:empty)) .search span,
+.top:has(.page-tools:not(:empty)) .search kbd { display: none; }
+.top:has(.page-tools:not(:empty)) .search { width: auto; flex: none; }
+@media (max-width: 1180px) {
+  .top { flex-wrap: wrap; }
+  .page-tools { order: 10; flex-basis: 100%; margin-left: 0; overflow-x: auto; }
+}

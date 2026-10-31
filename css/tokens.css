@@ -1,0 +1,76 @@
+/* =========================================================
+   Variables de design (DA rouge / noir)
+   Tout le thème se règle ici : couleurs, typo, rayons, espaces.
+   ========================================================= */
+:root {
+  /* Couleurs de fond */
+  --c-sumi: #050304;      /* fond de page */
+  --c-ink: #0e0a0b;       /* surfaces (panneaux) */
+  --c-ink-2: #161012;     /* surfaces relevées (cartes dans un panneau) */
+  --c-ink-red: #2a0a0e;   /* surfaces teintées rouge */
+  --c-glass: rgba(14, 10, 11, .78); /* panneaux légèrement transparents (laisse voir les nuages du fond) */
+
+  /* Rouges */
+  --c-laque: #b3121f;     /* rouge laque principal */
+  --c-laque-hi: #e0303c;  /* rouge vif : hover, focus, actif */
+  --c-ember: #ff5a4f;     /* accents lumineux, liens */
+  --c-rose: #ffb3ac;      /* texte sur fond rouge */
+
+  /* Accents */
+  --c-kin: #d9a441;       /* or : rangs, podium, kamas */
+  --c-kin-bg: #2b2010;
+  --c-ok: #6fdc9a;        /* succès / terminé */
+  --c-ok-bg: #0f2418;
+
+  /* Texte */
+  --c-washi: #efe6e1;     /* texte principal */
+  --c-ash: #9a8f92;       /* texte secondaire */
+  --c-track: #241a1c;     /* fond des jauges */
+
+  /* Traits */
+  --c-hair: rgba(239, 230, 225, .09);
+  --c-hair-2: rgba(239, 230, 225, .16);
+
+  /* Typographie */
+  --font-serif: "Shippori Mincho B1", Georgia, serif;
+  --font-sans: "Zen Kaku Gothic New", system-ui, sans-serif;
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-base: 15px;
+  --fs-md: 16px;
+  --fs-lg: 20px;
+  --fs-xl: 26px;
+  --fs-2xl: 30px;
+
+  /* Rayons */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 18px;
+  --r-xl: 22px;
+  --r-pill: 999px;
+
+  /* Espacements */
+  --gap: 18px;
+  --gap-sm: 10px;
+  --pad-panel: 22px;
+  --page-x: 40px;
+  --rail-w: 84px;
+  --top-h: 82px;          /* hauteur de la barre du haut (éléments collants en dessous) */
+
+  /* Effets */
+  --glow-red: 0 6px 24px #b3121f44;
+  --glow-sun: 0 0 90px #b3121f88;
+  --t-fast: .15s;
+  --t-med: .25s;
+
+  color-scheme: dark;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --page-x: 16px;
+    --gap: 14px;
+    --pad-panel: 18px;
+  }
+}

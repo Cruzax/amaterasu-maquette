@@ -1,0 +1,47 @@
+/* Page Guilde (membres + classements) */
+
+/* Top 3 : bande compacte */
+.podium { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: var(--gap); }
+.step {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--c-hair);
+  border-radius: var(--r-md);
+  background: var(--c-glass);
+  text-align: left;
+}
+.step:hover { border-color: var(--c-hair-2); }
+.step.p1 { border-color: #d9a44166; }
+.step .pos { font-family: var(--font-serif); font-weight: 800; font-size: 22px; width: 18px; color: var(--c-ash); }
+.step.p1 .pos { color: var(--c-kin); }
+.step-name { flex: 1; min-width: 0; }
+.step-name b { display: block; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.step-name small { color: var(--c-ash); font-size: var(--fs-xs); }
+.step .pod-eye { flex: none; opacity: .85; }
+.step-pts { font-weight: 700; font-size: 14px; white-space: nowrap; }
+
+/* Tableau annuaire */
+.tbl { width: 100%; border-collapse: collapse; font-size: 14px; }
+.tbl th { text-align: left; color: var(--c-ash); font-weight: 500; font-size: 12.5px; padding: 0 12px 10px; }
+.tbl td { padding: 10px 12px; border-top: 1px solid var(--c-hair); }
+.tbl tr.row { cursor: pointer; }
+.tbl tr.row:hover td { background: var(--c-ink-2); }
+.tbl tr.mine td { background: #1d080b; }
+.tbl .num { text-align: right; font-variant-numeric: tabular-nums; }
+.tbl .who { display: flex; align-items: center; gap: 10px; }
+.tbl .rk { font-family: var(--font-serif); font-weight: 800; width: 40px; color: var(--c-ash); }
+.dir-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.dir-filters .input { min-width: 0; }
+.dir-filters #guildSearch { width: 220px; }
+.tbl th .sort { border: 0; background: none; padding: 0; color: inherit; font: inherit; display: inline-flex; align-items: center; gap: 6px; }
+.tbl th .sort span { font-size: 10px; opacity: .45; }
+.tbl th .sort:hover, .tbl th .sort.on { color: var(--c-washi); }
+.tbl th .sort.on span { opacity: 1; color: var(--c-ember); }
+.tbl th.num .sort { flex-direction: row-reverse; }
+.mbar { width: 120px; height: 6px; border-radius: 9px; background: var(--c-track); overflow: hidden; display: inline-block; vertical-align: middle; }
+.mbar i { display: block; height: 100%; background: var(--c-laque-hi); }
+
+@media (max-width: 760px) {
+  .podium { grid-template-columns: 1fr; gap: 8px; }
+  .tbl .hide-m { display: none; }
+}

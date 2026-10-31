@@ -1,0 +1,71 @@
+/* Page Création de personnage */
+
+/* Étapes */
+.stepper { list-style: none; margin: 0 0 var(--gap); padding: 0; display: flex; gap: 8px; }
+.stepper button {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 16px 8px 8px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--c-hair);
+  background: var(--c-ink);
+  color: var(--c-ash);
+  font-weight: 700; font-size: 14px;
+}
+.stepper span { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--c-ink-2); font-size: var(--fs-sm); }
+.stepper .on button { color: var(--c-washi); border-color: var(--c-laque-hi); }
+.stepper .on span { background: var(--c-laque); color: #fff; }
+.stepper .done span { background: var(--c-ok-bg); color: var(--c-ok); }
+
+/* Étape 1 : classes */
+.cc-layout { display: grid; grid-template-columns: 1fr 340px; gap: var(--gap); align-items: start; }
+.cls-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 12px; }
+.cls-card {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 16px 8px 14px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--c-hair);
+  background: var(--c-ink);
+  text-align: center;
+}
+.cls-card img { width: 58px; height: 58px; }
+.cls-card b { font-size: 14px; }
+.cls-card span { font-size: var(--fs-xs); color: var(--c-ash); line-height: 1.3; }
+.cls-card:hover { border-color: var(--c-hair-2); }
+.cls-card.on { border-color: var(--c-laque-hi); background: linear-gradient(180deg, var(--c-ink-red), var(--c-ink)); box-shadow: inset 0 0 0 1px var(--c-laque-hi); }
+
+.cc-side { position: sticky; top: 90px; text-align: center; }
+.cc-side h2 { font-size: var(--fs-xl); margin-top: 6px; }
+.cc-side h4 { font-family: var(--font-serif); margin: 20px 0 10px; }
+.cc-logo { width: 120px; height: 120px; object-fit: contain; }
+.cx { display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: 12px; font-size: var(--fs-sm); color: var(--c-ash); }
+.cx i { width: 9px; height: 9px; border-radius: 50%; background: var(--c-track); }
+.cx i:first-of-type { margin-left: 6px; }
+.cx i.on { background: var(--c-ember); }
+.sex-pick { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sex-pick button { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px; border-radius: var(--r-md); border: 1px solid var(--c-hair); background: var(--c-ink-2); font-weight: 700; }
+.sex-pick button.on { border-color: var(--c-laque-hi); }
+.sex-pick img { width: 56px; height: 56px; object-fit: contain; }
+
+/* Étape 2 : Skinoskope */
+.cc-look { border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--c-hair); height: 680px; background: #111; }
+.cc-look iframe { width: 100%; height: 100%; border: 0; }
+.cc-foot { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+.cc-foot .ash { flex: 1; }
+
+/* Étape 3 : nom */
+.cc-name { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--gap); align-items: start; }
+.cc-form { display: flex; flex-direction: column; gap: 16px; }
+.cc-form label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.cc-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+@media (max-width: 1180px) {
+  .cc-layout, .cc-name { grid-template-columns: 1fr; }
+  .cc-side { position: static; }
+}
+@media (max-width: 760px) {
+  .stepper button { padding-right: 10px; font-size: var(--fs-sm); }
+  .cc-look { height: 560px; }
+  .cc-foot { flex-wrap: wrap; }
+}
+.cc-look-off { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; color: var(--c-ash); padding: 24px; }
+.cc-look-off p { max-width: 52ch; margin: 0; }

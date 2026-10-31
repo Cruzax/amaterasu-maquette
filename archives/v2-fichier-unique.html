@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amaterasu v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sumi:#050304;        /* fond */
+  --ink:#0e0a0b;         /* surfaces */
+  --ink-2:#161012;       /* surfaces relevées */
+  --laque:#b3121f;       /* rouge laque */
+  --laque-hi:#e0303c;    /* rouge vif / focus */
+  --ember:#ff5a4f;       /* accents lumineux */
+  --kin:#d9a441;         /* or, rangs */
+  --washi:#efe6e1;       /* texte */
+  --ash:#9a8f92;         /* texte secondaire */
+  --hair:rgba(239,230,225,.09);
+  --hair-2:rgba(239,230,225,.16);
+  --serif:"Shippori Mincho B1",Georgia,serif;
+  --sans:"Zen Kaku Gothic New",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--sumi);color:var(--washi);font-family:var(--sans);font-size:15px;line-height:1.5}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--laque-hi);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- Shell ---------- */
+.shell{display:grid;grid-template-columns:84px 1fr;min-height:100vh}
+.rail{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 0;border-right:1px solid var(--hair);background:var(--sumi);z-index:5}
+.seal{width:46px;height:46px;border-radius:12px;background:var(--laque);display:grid;place-items:center;margin-bottom:22px;box-shadow:0 0 0 1px #ff6b6b33,0 8px 30px #b3121f55}
+.seal svg{width:26px}
+.rail a{width:60px;padding:10px 0 8px;border-radius:14px;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--ash);font-size:11px;font-weight:500;position:relative}
+.rail a svg{width:22px;height:22px}
+.rail a:hover{color:var(--washi);background:var(--ink-2)}
+.rail a.on{color:var(--washi);background:linear-gradient(180deg,#2a0a0e,#170709)}
+.rail a.on::before{content:"";position:absolute;left:-12px;top:14px;bottom:14px;width:3px;border-radius:3px;background:var(--laque-hi);box-shadow:0 0 12px var(--laque-hi)}
+.rail .spacer{flex:1}
+
+.top{position:sticky;top:0;z-index:4;display:flex;align-items:center;gap:16px;padding:18px 40px;background:linear-gradient(180deg,var(--sumi) 70%,transparent)}
+.top h1{font-family:var(--serif);font-weight:800;font-size:30px;margin:0;letter-spacing:.01em}
+.top .guild{color:var(--ash);font-size:13px;margin-left:4px;padding-top:8px}
+.search{margin-left:auto;display:flex;align-items:center;gap:10px;width:300px;padding:9px 12px;border-radius:10px;background:var(--ink);border:1px solid var(--hair);color:var(--ash);font-size:13.5px}
+.search kbd{margin-left:auto;font-family:var(--sans);font-size:11px;border:1px solid var(--hair-2);border-radius:5px;padding:1px 6px}
+.iconbtn{width:40px;height:40px;border-radius:10px;border:1px solid var(--hair);background:var(--ink);display:grid;place-items:center;position:relative;color:var(--washi)}
+.iconbtn .dot{position:absolute;top:8px;right:9px;width:7px;height:7px;border-radius:50%;background:var(--ember)}
+.me{display:flex;align-items:center;gap:10px;padding:4px 12px 4px 4px;border-radius:999px;border:1px solid var(--hair);background:var(--ink)}
+.me b{font-size:13.5px;display:block;line-height:1.1}.me small{color:var(--ash);font-size:11.5px}
+
+.page{padding:6px 40px 60px;max-width:1440px}
+
+/* ---------- Éléments communs ---------- */
+.av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;flex:none;color:#fff;box-shadow:inset 0 0 0 2px #ffffff1a}
+.av.sm{width:28px;height:28px;font-size:12px}
+.av.lg{width:84px;height:84px;font-size:32px;font-family:var(--serif)}
+.panel{background:var(--ink);border:1px solid var(--hair);border-radius:18px;padding:22px}
+.panel h2{font-family:var(--serif);font-weight:800;font-size:20px;margin:0}
+.ph{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.ph a.more{margin-left:auto;color:var(--ember);font-size:13px}
+.ph a.more:hover{text-decoration:underline}
+.ash{color:var(--ash)}
+.btn{border:0;border-radius:10px;padding:10px 16px;font-weight:700;font-size:14px;background:var(--laque);color:#fff;box-shadow:0 6px 24px #b3121f44}
+.btn:hover{background:var(--laque-hi)}
+.btn.ghost{background:transparent;border:1px solid var(--hair-2);box-shadow:none}
+.btn.ghost:hover{border-color:var(--laque-hi)}
+.btn.sm{padding:7px 12px;font-size:13px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--hair-2);background:transparent;border-radius:999px;padding:7px 14px;font-size:13px;color:var(--ash)}
+.chip:hover{color:var(--washi)}
+.chip.on{background:var(--washi);color:var(--sumi);border-color:var(--washi);font-weight:700}
+.seg{display:inline-flex;padding:4px;border-radius:12px;background:var(--ink);border:1px solid var(--hair)}
+.seg button{border:0;background:transparent;padding:8px 16px;border-radius:9px;color:var(--ash);font-weight:700;font-size:13.5px}
+.seg button.on{background:var(--laque);color:#fff}
+.input{background:var(--ink);border:1px solid var(--hair);border-radius:10px;padding:9px 12px;min-width:240px}
+.tag{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:6px;background:#2a0a0e;color:#ff9f97}
+.tag.kin{background:#2b2010;color:var(--kin)}
+.tag.ok{background:#0f2418;color:#6fdc9a}
+
+/* ---------- Accueil ---------- */
+.bento{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-areas:"sun todo todo" "sun rank feed" "atelier defis feed";gap:18px}
+.sun-card{grid-area:sun;position:relative;overflow:hidden;border-radius:22px;padding:28px;min-height:520px;display:flex;flex-direction:column;
+  background:radial-gradient(120% 80% at 50% 0%,#2a070c 0%,#0e0708 60%);border:1px solid #ff5a4f22}
+.waves{position:absolute;inset:auto 0 0 0;height:160px;opacity:.18}
+.sun{position:relative;width:min(340px,80%);aspect-ratio:1;margin:8px auto 0}
+.sun .disc{position:absolute;inset:14%;border-radius:50%;background:radial-gradient(circle at 40% 35%,#e3333f,#9c0f1a 62%,#5a060d);box-shadow:0 0 90px #b3121f88,inset 0 -20px 40px #00000055;display:grid;place-items:center;text-align:center}
+.sun svg.ring{position:absolute;inset:0;transform:rotate(-90deg)}
+.sun .t{font-family:var(--serif);font-weight:800;font-size:54px;line-height:1;letter-spacing:-.01em}
+.sun .u{font-size:13px;opacity:.85;margin-top:6px}
+.sun-card .next{position:relative;margin-top:auto;text-align:center}
+.sun-card .next .k{color:#ffb3ac;font-size:13px}
+.sun-card .next h3{font-family:var(--serif);font-size:26px;margin:4px 0 6px}
+.sun-card .next p{margin:0 0 16px;color:#e5d4d1;font-size:14px}
+.stack{display:flex;justify-content:center;align-items:center;gap:12px;margin-bottom:18px}
+.stack .avs{display:flex}.stack .avs .av{margin-left:-8px;box-shadow:0 0 0 2px #1a0709}
+.todo{grid-area:todo}
+.todo ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.todo li{border:1px solid var(--hair);border-radius:14px;padding:16px;background:var(--ink-2);display:flex;flex-direction:column;gap:10px}
+.todo li.urgent{border-color:#e0303c66;background:linear-gradient(160deg,#25090d,var(--ink-2))}
+.todo li b{font-size:15px}
+.todo li span{color:var(--ash);font-size:13px;flex:1}
+.rank{grid-area:rank}
+.rank .big{display:flex;align-items:flex-end;gap:10px;margin:2px 0 14px}
+.rank .big b{font-family:var(--serif);font-size:64px;line-height:.9;color:var(--kin)}
+.rank .big span{color:var(--ash);font-size:13px;padding-bottom:6px}
+.meter{height:8px;border-radius:99px;background:#241a1c;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--laque),var(--ember))}
+.podium-mini{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+.podium-mini div{display:flex;align-items:center;gap:10px;font-size:14px}
+.podium-mini em{font-style:normal;width:16px;color:var(--kin);font-family:var(--serif);font-weight:800}
+.podium-mini b{margin-left:auto;font-weight:500;color:var(--ash);font-size:13px}
+.feed{grid-area:feed}
+.feed ol{list-style:none;margin:0;padding:0;position:relative}
+.feed ol::before{content:"";position:absolute;left:17px;top:6px;bottom:6px;width:1px;background:var(--hair-2)}
+.feed li{display:flex;gap:12px;padding:9px 0;position:relative;font-size:14px}
+.feed li .av{z-index:1}
+.feed li small{display:block;color:var(--ash);font-size:12px}
+.atelier-mini{grid-area:atelier}
+.defis-mini{grid-area:defis}
+.mini-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--hair);font-size:14px}
+.mini-row:first-of-type{border-top:0}
+.mini-row .r{margin-left:auto;text-align:right;font-size:13px;color:var(--ash)}
+.mini-row .r b{display:block;color:var(--washi);font-size:14px}
+.bday{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding:12px 16px;border-radius:14px;border:1px dashed #d9a44166;background:#1a1408;font-size:14px}
+.bday b{color:var(--kin)}
+.bday .btn{margin-left:auto}
+
+/* ---------- Agenda ---------- */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-bottom:22px}
+.day{border:1px solid var(--hair);border-radius:14px;padding:12px;background:var(--ink);min-height:96px;text-align:left}
+.day.today{border-color:var(--laque-hi);box-shadow:inset 0 0 0 1px var(--laque-hi)}
+.day .dn{color:var(--ash);font-size:12px}
+.day .dd{font-family:var(--serif);font-size:26px;font-weight:800;line-height:1.1}
+.day .ev-dot{margin-top:6px;font-size:11.5px;padding:3px 7px;border-radius:6px;background:#2a0a0e;color:#ffb3ac;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-row{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}
+.ticket{display:grid;grid-template-columns:110px 1fr 220px;border:1px solid var(--hair);border-radius:18px;background:var(--ink);overflow:hidden;margin-bottom:14px}
+.ticket .when{background:linear-gradient(180deg,#3a0910,#1c0609);display:flex;flex-direction:column;justify-content:center;align-items:center;border-right:2px dashed #050304}
+.ticket .when b{font-family:var(--serif);font-size:38px;line-height:1}
+.ticket .when span{font-size:13px;color:#ffb3ac}
+.ticket .what{padding:18px 22px}
+.ticket h3{font-family:var(--serif);font-size:21px;margin:6px 0 4px}
+.ticket p{margin:0;color:#d8cbc8;font-size:14px}
+.ticket .who{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:13px;color:var(--ash)}
+.ticket .who .avs{display:flex}.ticket .who .avs .av{margin-left:-6px;box-shadow:0 0 0 2px var(--ink)}
+.ticket .act{padding:18px;border-left:1px solid var(--hair);display:flex;flex-direction:column;justify-content:center;gap:10px}
+.places{font-size:13px;color:var(--ash)}
+.places b{color:var(--washi);font-size:15px}
+
+/* ---------- Guilde ---------- */
+.podium{display:grid;grid-template-columns:1fr 1.15fr 1fr;align-items:end;gap:16px;margin-bottom:22px}
+.step{border:1px solid var(--hair);border-radius:18px 18px 6px 6px;background:var(--ink);text-align:center;padding:22px 16px 18px;cursor:pointer}
+.step:hover{border-color:var(--hair-2)}
+.step .pos{font-family:var(--serif);font-weight:800;font-size:40px;line-height:1;color:var(--ash)}
+.step.p1{padding-top:34px;background:linear-gradient(180deg,#2b1f0c,var(--ink) 70%);border-color:#d9a44155}
+.step.p1 .pos{color:var(--kin);font-size:54px}
+.step .av{margin:12px auto 8px}
+.step b{display:block;font-size:16px}
+.step span{color:var(--ash);font-size:13px}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{text-align:left;color:var(--ash);font-weight:500;font-size:12.5px;padding:0 12px 10px}
+.tbl td{padding:10px 12px;border-top:1px solid var(--hair)}
+.tbl tr.row{cursor:pointer}
+.tbl tr.row:hover td{background:var(--ink-2)}
+.tbl tr.mine td{background:#1d080b}
+.tbl .num{text-align:right;font-variant-numeric:tabular-nums}
+.tbl .who{display:flex;align-items:center;gap:10px}
+.tbl .rk{font-family:var(--serif);font-weight:800;width:40px;color:var(--ash)}
+.mbar{width:120px;height:6px;border-radius:9px;background:#241a1c;overflow:hidden;display:inline-block;vertical-align:middle}
+.mbar i{display:block;height:100%;background:var(--laque-hi)}
+
+/* ---------- Défis ---------- */
+.defis{display:grid;grid-template-columns:320px 1fr;gap:20px;align-items:start}
+.defis .side{position:sticky;top:90px}
+.top10 li{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--hair);font-size:14px}
+.top10 li:first-child{border-top:0}
+.top10 em{font-style:normal;font-family:var(--serif);font-weight:800;width:22px;color:var(--ash)}
+.top10 li:nth-child(-n+3) em{color:var(--kin)}
+.top10 small{display:block;color:var(--ash);font-size:12px}
+.top10 b{margin-left:auto;font-size:13.5px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.tile{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--hair);background:var(--ink);text-align:left;padding:0;cursor:pointer}
+.tile:hover{border-color:var(--laque-hi)}
+.tile .art{height:120px;position:relative;display:flex;align-items:flex-end;justify-content:space-between;padding:12px}
+.tile .art .lv{font-family:var(--serif);font-weight:800;font-size:40px;line-height:.9;color:#fff;text-shadow:0 2px 20px #0008}
+.tile .art .lv small{display:block;font-family:var(--sans);font-size:11px;font-weight:500;opacity:.8}
+.tile .art .em{font-size:34px}
+.tile .nm{padding:10px 12px 12px;font-weight:700;font-size:14px}
+.tile .nm small{display:block;font-weight:400;color:var(--ash);font-size:12px}
+.tile .crown{position:absolute;top:10px;left:10px}
+
+/* ---------- Atelier ---------- */
+.kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+.col{background:var(--ink);border:1px solid var(--hair);border-radius:18px;padding:14px}
+.col h3{font-family:var(--serif);font-size:18px;margin:4px 6px 12px;display:flex;align-items:center;gap:8px}
+.col h3 span{font-family:var(--sans);font-size:12px;color:var(--ash);font-weight:500}
+.job{border:1px solid var(--hair);border-radius:14px;padding:14px;background:var(--ink-2);margin-bottom:10px}
+.job b{display:block;font-size:15px;margin:6px 0 4px}
+.job .k{font-family:var(--serif);font-weight:800;font-size:20px;color:var(--kin)}
+.job .k small{font-family:var(--sans);font-size:12px;font-weight:500;color:var(--ash)}
+.job .who{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:var(--ash)}
+.job .who .btn{margin-left:auto}
+
+/* ---------- Drawer / palette / toast ---------- */
+.scrim{position:fixed;inset:0;background:#000a;opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100vh;width:min(440px,100%);background:var(--ink);border-left:1px solid var(--hair-2);z-index:21;transform:translateX(100%);transition:transform .25s ease;overflow:auto;padding:26px}
+.drawer.on{transform:none}
+.drawer .x{position:absolute;top:18px;right:18px}
+.drawer h2{font-family:var(--serif);font-size:26px;margin:14px 0 2px}
+.drawer h4{font-family:var(--serif);font-size:16px;margin:24px 0 10px}
+.stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stats3 div{border:1px solid var(--hair);border-radius:12px;padding:12px;font-size:12.5px;color:var(--ash)}
+.stats3 b{display:block;font-family:var(--serif);font-size:24px;color:var(--washi)}
+.list-plain{display:flex;flex-direction:column;gap:8px}
+.list-plain div{display:flex;justify-content:space-between;border:1px solid var(--hair);border-radius:10px;padding:10px 12px;font-size:14px}
+.list-plain span{color:var(--ash)}
+.palette{position:fixed;left:50%;top:14vh;transform:translateX(-50%) scale(.98);width:min(560px,92vw);background:var(--ink);border:1px solid var(--hair-2);border-radius:16px;z-index:22;opacity:0;pointer-events:none;transition:.15s;box-shadow:0 30px 80px #000}
+.palette.on{opacity:1;pointer-events:auto;transform:translateX(-50%)}
+.palette input{width:100%;border:0;border-bottom:1px solid var(--hair);background:transparent;padding:16px 18px;font-size:16px;outline:none}
+.palette ul{list-style:none;margin:0;padding:8px;max-height:50vh;overflow:auto}
+.palette li a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;font-size:14px}
+.palette li a:hover,.palette li a.sel{background:var(--ink-2)}
+.palette li small{margin-left:auto;color:var(--ash)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);background:var(--washi);color:var(--sumi);padding:12px 18px;border-radius:12px;font-weight:700;font-size:14px;opacity:0;transition:.2s;z-index:30}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1180px){
+  .bento{grid-template-columns:1fr 1fr;grid-template-areas:"sun todo" "sun rank" "feed feed" "atelier defis"}
+  .todo ul{grid-template-columns:1fr}
+  .ticket{grid-template-columns:90px 1fr}.ticket .act{grid-column:1/-1;border-left:0;border-top:1px solid var(--hair);flex-direction:row;align-items:center;justify-content:space-between}
+  .defis{grid-template-columns:1fr}.defis .side{position:static}
+}
+@media (max-width:760px){
+  .shell{grid-template-columns:1fr}
+  .rail{position:fixed;top:auto;bottom:0;left:0;right:0;height:auto;flex-direction:row;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));border-right:0;border-top:1px solid var(--hair);background:#050304f2;backdrop-filter:blur(10px)}
+  .rail .seal,.rail .spacer{display:none}
+  .rail a{width:auto;flex:1}
+  .rail a.on::before{left:30%;right:30%;top:-7px;bottom:auto;width:auto;height:3px}
+  .top{padding:14px 16px}.top h1{font-size:24px}.top .guild,.search span,.search kbd,.me div{display:none}
+  .search{width:auto;margin-left:auto}
+  .page{padding:4px 16px 100px}
+  .bento{grid-template-columns:1fr;grid-template-areas:"sun" "todo" "rank" "feed" "atelier" "defis"}
+  .sun-card{min-height:auto}
+  .week{grid-template-columns:repeat(7,64px);overflow-x:auto}
+  .kanban{grid-template-columns:1fr}
+  .podium{gap:8px}.step{padding:14px 6px}.step .pos{font-size:28px}.step.p1 .pos{font-size:36px}
+  .tbl .hide-m{display:none}
+  .input{min-width:0;width:100%}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Navigation principale"></nav>
+  <div>
+    <header class="top">
+      <h1 id="ptitle"></h1><span class="guild">Amaterasu, guilde Dofus</span>
+      <button class="search" id="openPal" aria-label="Rechercher"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Chercher un membre, un donjon…</span><kbd>Ctrl K</kbd></button>
+      <button class="iconbtn" aria-label="Notifications"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10 20a2 2 0 0 0 4 0"/></svg><span class="dot"></span></button>
+      <button class="me" id="meBtn"></button>
+    </header>
+    <main class="page" id="view"></main>
+  </div>
+</div>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true"></aside>
+<div class="palette" id="pal"><input id="palIn" placeholder="Aller à…" aria-label="Rechercher"><ul id="palList"></ul></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= Données fictives ================= */
+const PAL=['#8f1420','#2c3d6b','#2f5a35','#6b4a1f','#4c2a6b','#1f5c5a','#6b2448','#5a5520'];
+const CLASSES=['Sram','Iop','Eniripsa','Cra','Feca','Osamodas','Xélor','Pandawa','Eliotrope','Enutrof','Sadida','Zobal'];
+const members=[
+  ['kaze','Kaze-Sram','Membre',4,2],['yoru','Yoru','Meneur',28,19],['akane','Akane-Iop','Bras droit',14,9],
+  ['tsuki','Tsukiyo','Officier',11,6],['hoshi','Hoshi-Eni','Membre',6,5],['ren','Ren-Cra','Membre',7,2],
+  ['mizu','Mizu-Feca','Officier',3,4],['kitsu','Kitsune-Osa','Membre',5,1],['shiro','Shiro-Xelor','Membre',2,2],
+  ['raiden','Raiden','Membre',1,2],['sora','Sora-Elio','Membre',2,0],['kuro','Kuro-Enu','Membre',1,0],
+].map(([id,name,role,msg,voc],i)=>({id,name,role,msg,voc,pts:msg+voc,color:PAL[i%PAL.length],cls:CLASSES[i],lvl:200-((i*7)%40)}));
+const M=id=>members.find(m=>m.id===id);
+const me=M('kaze');
+me.chars=[{n:'Kaze',c:'Sram',l:200},{n:'Kaze-Mule',c:'Enutrof',l:187},{n:'Petit-Kaze',c:'Eniripsa',l:142}];
+me.jobs=[{n:'Bijoutier',l:200},{n:'Joaillomage',l:120},{n:'Paysan',l:60}];
+const bdays=['akane'];
+
+// "maintenant" figé pour la maquette : samedi 31 oct. 2026, 15:12
+const NOW=new Date(2026,9,31,15,12);
+const events=[
+  {id:'e1',at:new Date(2026,9,31,17,0),title:'Session solotage Minotot',cat:'Donjon',desc:'On lance tous la Salle du Minotot en solo à la même heure, puis on compare les scores.',org:'yoru',parts:['yoru','akane','ren'],max:12,wait:[]},
+  {id:'e2',at:new Date(2026,10,2,21,0),title:'Raid Comte Harebourg',cat:'Raid',desc:'Perso 200 conseillé, bonne résistance eau. Vocal obligatoire.',org:'akane',parts:['akane','tsuki','mizu','hoshi','yoru','kitsu','shiro','raiden'],max:8,wait:['sora','kuro']},
+  {id:'e3',at:new Date(2026,10,5,20,30),title:'Soirée succès Dimensions',cat:'Succès',desc:'On enchaîne les succès des dimensions divines. Tous niveaux bienvenus.',org:'tsuki',parts:['tsuki','ren'],max:6,wait:[]},
+  {id:'e4',at:new Date(2026,10,9,21,0),title:'Percepteurs et AvA',cat:'PvP',desc:'Défense des percepteurs puis prise de zone en Alliance contre Alliance.',org:'yoru',parts:['yoru','raiden','kuro','sora'],max:16,wait:[]},
+];
+const jobs=[
+  {t:'Cape Ombre Minotot, vitalité',j:'Façomage',k:1200000,by:'hoshi',st:'open'},
+  {t:'Bottes du Kralamoure, exo PM',j:'Cordomage',k:8500000,by:'ren',st:'open'},
+  {t:'Amulette Ougah, sagesse',j:'Joaillomage',k:2100000,by:'sora',st:'open'},
+  {t:'Bouclier Tal Kasha, résistances',j:'Sculptemage',k:3000000,by:'kitsu',st:'taken',to:'mizu'},
+  {t:'Anneau padgref, exo PA',j:'Joaillomage',k:6000000,by:'yoru',st:'done',to:'kaze'},
+  {t:'Ceinture Ougah, sagesse',j:'Costumage',k:900000,by:'mizu',st:'done',to:'tsuki'},
+  {t:'Dagues Erhy, puissance',j:'Forgemage',k:2300000,by:'kitsu',st:'done',to:'akane'},
+];
+const dungeons=[
+  ['Crypte de Kardorim',10,'💀'],['Château Ensablé',20,'🏰'],['Cour du Bouftou Royal',30,'🐑'],['Donjon des Tofus',40,'🐤'],
+  ['Akadémie des Gobs',40,'🎓'],['Donjon des Larves',50,'🐛'],['Château du Wa Wabbit',60,'🐰'],['Antre du Dragon Cochon',100,'🐲'],
+  ['Labyrinthe du Minotoror',120,'🐂'],['Ring du Capitaine Ekarlatte',130,'🥊'],['Dojo du Vent',140,'🌬️'],['Salle du Minotot',160,'⚔️'],
+  ['Tombe du Shogun Tofugawa',160,'⛩️'],['Antre du Kralamoure Géant',180,'🐙'],['Donjon du Comte Harebourg',200,'❄️'],['Tour de Solar',200,'☀️'],
+  ['Temple de Koutoulou',200,'🌀'],['Belvédère d\'Ilyzaelle',200,'🌸'],['Trône de la Cour Sombre',200,'🌑'],['Ventre de la Baleine',200,'🐋'],
+];
+const records={'Salle du Minotot':[['yoru',4,48],['akane',6,42],['ren',9,35]],'Donjon des Tofus':[['kaze',3,20]],'Château du Wa Wabbit':[['hoshi',5,30],['tsuki',7,26]],'Tour de Solar':[['akane',12,60]],'Tombe du Shogun Tofugawa':[['tsuki',8,44]],'Dojo du Vent':[['mizu',6,33]]};
+const feed=[
+  ['akane','a battu le record de la Tour de Solar','il y a 25 min'],
+  ['mizu','a pris en charge le bouclier Tal Kasha de Kitsune-Osa','il y a 1 h'],
+  ['raiden','s’est inscrit au Raid Comte Harebourg','il y a 2 h'],
+  ['yoru','a créé l’événement Percepteurs et AvA','il y a 4 h'],
+  ['sora','a rejoint la guilde','hier'],
+  ['kaze','a terminé l’anneau padgref de Yoru','hier'],
+];
+
+/* ================= Helpers ================= */
+const ICON={
+  home:'<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>',
+  cal:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  guild:'<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6Z"/><path d="m9 12 2 2 4-4"/>',
+  sword:'<path d="M14.5 3H21v6.5L10 20.5 3.5 14Z"/><path d="m6 17-3 3M13 7l4 4"/>',
+  anvil:'<path d="M3 7h13a5 5 0 0 0 5-3v6a4 4 0 0 1-4 4h-1l1 5H7l1-5H7a4 4 0 0 1-4-4Z"/>',
+  x:'<path d="M6 6l12 12M18 6 6 18"/>',
+};
+const ico=(n,s=22)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICON[n]}</svg>`;
+const av=(m,c='')=>`<span class="av ${c}" style="background:${m.color}" title="${m.name}">${m.name[0]}</span>`;
+const kamas=n=>n.toLocaleString('fr-FR');
+const DAYS=['dim.','lun.','mar.','mer.','jeu.','ven.','sam.'];
+const MONTHS=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+const fmtDay=d=>`${DAYS[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]}`;
+const hhmm=d=>d.toTimeString().slice(0,5).replace(':','h');
+const sortBy=k=>[...members].sort((a,b)=>b[k]-a[k]);
+const rankOf=(m,k='pts')=>sortBy(k).indexOf(m)+1;
+const esc=s=>s.replace(/'/g,"\\'");
+const toast=t=>{const e=document.getElementById('toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),2200)};
+
+/* ================= Actions ================= */
+function toggleSignup(id){
+  const e=events.find(x=>x.id===id);
+  if(e.parts.includes(me.id)){e.parts=e.parts.filter(x=>x!==me.id);toast(`Désinscrit de ${e.title}`)}
+  else if(e.wait.includes(me.id)){e.wait=e.wait.filter(x=>x!==me.id);toast(`Retiré de la liste d’attente`)}
+  else if(e.parts.length>=e.max){e.wait.push(me.id);toast(`Ajouté à la liste d’attente de ${e.title}`)}
+  else{e.parts.push(me.id);toast(`Inscrit à ${e.title} avec Kaze`)}
+  render();
+}
+function takeJob(i){jobs[i].st='taken';jobs[i].to=me.id;toast(`Tu as pris en charge : ${jobs[i].t}`);render()}
+function signupLabel(e){return e.parts.includes(me.id)?'Me désinscrire':e.wait.includes(me.id)?'Quitter l’attente':e.parts.length>=e.max?'Liste d’attente':'M’inscrire'}
+
+/* ================= Pages ================= */
+const state={rank:'pts',cat:'Tous',q:'',tier:'Tous',jobF:'Tous'};
+const pages={
+accueil:{label:'Accueil',icon:'home',title:'Bonsoir, Kaze',render(){
+  const next=events.filter(e=>e.at>NOW).sort((a,b)=>a.at-b.at)[0];
+  const diff=next.at-NOW, h=Math.floor(diff/36e5), mn=Math.floor(diff%36e5/6e4);
+  const fill=next.parts.length/next.max, C=2*Math.PI*47;
+  const top=sortBy('pts'), r=rankOf(me), above=top[r-2], gap=above?above.pts-me.pts:0;
+  const raid=events.find(e=>e.id==='e2'), open=jobs.filter(j=>j.st==='open');
+  const recent=Object.entries(records).flatMap(([d,rs])=>rs.slice(0,1).map(([id,,p])=>({d,m:M(id),p}))).sort((a,b)=>b.p-a.p).slice(0,3);
+  return `
+  ${bdays.length?`<div class="bday">🎂 <span><b>${M(bdays[0]).name}</b> fête son anniversaire aujourd’hui.</span><button class="btn ghost sm" onclick="toast('Message envoyé sur Discord')">Lui souhaiter</button></div>`:''}
+  <div class="bento">
+    <section class="sun-card" aria-label="Prochain événement">
+      <div class="sun">
+        <svg class="ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="47" fill="none" stroke="#ffffff14" stroke-width="1.5"/><circle cx="50" cy="50" r="47" fill="none" stroke="#ff5a4f" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="${C*fill} ${C}"/></svg>
+        <div class="disc"><div><div class="t">${h}h${String(mn).padStart(2,'0')}</div><div class="u">avant le départ</div></div></div>
+      </div>
+      <div class="next">
+        <div class="k">${next.cat}, ${fmtDay(next.at)} à ${hhmm(next.at)}</div>
+        <h3>${next.title}</h3>
+        <p>${next.desc}</p>
+        <div class="stack"><span class="avs">${next.parts.slice(0,5).map(id=>av(M(id),'sm')).join('')}</span><span class="ash" style="font-size:13px">${next.parts.length} inscrits sur ${next.max}</span></div>
+        <button class="btn" onclick="toggleSignup('${next.id}')">${signupLabel(next)}</button>
+      </div>
+      <svg class="waves" viewBox="0 0 400 160" preserveAspectRatio="none"><defs><pattern id="sg" width="40" height="20" patternUnits="userSpaceOnUse"><path d="M0 20a20 20 0 0 1 40 0M8 20a12 12 0 0 1 24 0M15 20a5 5 0 0 1 10 0" fill="none" stroke="#ff5a4f" stroke-width="1"/><path d="M-20 10a20 20 0 0 1 40 0M20 10a20 20 0 0 1 40 0" fill="none" stroke="#ff5a4f" stroke-width="1"/></pattern></defs><rect width="400" height="160" fill="url(#sg)"/></svg>
+    </section>
+
+    <section class="panel todo">
+      <div class="ph"><h2>Pour toi</h2><span class="ash" style="font-size:13px">3 choses à faire</span></div>
+      <ul>
+        <li class="urgent"><b>Raid Harebourg complet</b><span>${raid.wait.includes(me.id)?'Tu es en liste d’attente.':'Rejoins la liste d’attente, des places se libèrent souvent.'}</span><button class="btn sm" onclick="toggleSignup('e2')">${signupLabel(raid)}</button></li>
+        <li><b>${open.length} demandes de forgemagie</b><span>Dont une en Joaillomage, ton métier.</span><a class="btn ghost sm" href="#atelier" style="text-align:center">Voir l’atelier</a></li>
+        <li><b>Aucun record solotage</b><span>Le Donjon des Tofus est ton seul score. Tente la Salle du Minotot ce soir.</span><a class="btn ghost sm" href="#defis" style="text-align:center">Choisir un donjon</a></li>
+      </ul>
+    </section>
+
+    <section class="panel rank">
+      <div class="ph"><h2>Ton rang</h2><a class="more" href="#guilde">Classement</a></div>
+      <div class="big"><b>${r}<sup style="font-size:24px">e</sup></b><span>sur ${members.length}, ${me.pts} points en octobre</span></div>
+      <div class="meter"><i style="width:${above?Math.round(me.pts/above.pts*100):100}%"></i></div>
+      <div class="ash" style="font-size:12.5px;margin-top:8px">${above?`${gap} points pour dépasser ${above.name}`:'Tu es premier'}</div>
+      <div class="podium-mini">${top.slice(0,3).map((m,i)=>`<div><em>${i+1}</em>${av(m,'sm')}${m.name}<b>${m.pts} pts</b></div>`).join('')}</div>
+    </section>
+
+    <section class="panel feed">
+      <div class="ph"><h2>Dans la guilde</h2></div>
+      <ol>${feed.map(([id,t,w])=>`<li>${av(M(id))}<div><b>${M(id).name}</b> ${t}<small>${w}</small></div></li>`).join('')}</ol>
+    </section>
+
+    <section class="panel atelier-mini">
+      <div class="ph"><h2>Atelier</h2><a class="more" href="#atelier">Tout voir</a></div>
+      ${open.slice(0,3).map(j=>`<div class="mini-row">${av(M(j.by),'sm')}<div>${j.t}<div class="ash" style="font-size:12px">${j.j}</div></div><div class="r"><b>${kamas(j.k)}</b>kamas</div></div>`).join('')}
+    </section>
+
+    <section class="panel defis-mini">
+      <div class="ph"><h2>Derniers records</h2><a class="more" href="#defis">Défis</a></div>
+      ${recent.map(x=>`<div class="mini-row">${av(x.m,'sm')}<div>${x.m.name}<div class="ash" style="font-size:12px">${x.d}</div></div><div class="r"><b>${x.p}</b>points</div></div>`).join('')}
+    </section>
+  </div>`;
+}},
+
+agenda:{label:'Agenda',icon:'cal',title:'Agenda',render(){
+  const days=[...Array(7)].map((_,i)=>{const d=new Date(NOW);d.setDate(d.getDate()+i);return d});
+  const list=events.filter(e=>state.cat==='Tous'||e.cat===state.cat).sort((a,b)=>a.at-b.at);
+  return `
+  <div class="week">${days.map((d,i)=>{const evs=events.filter(e=>e.at.toDateString()===d.toDateString());return `<div class="day ${i?'':'today'}"><div class="dn">${i?DAYS[d.getDay()]:'Aujourd’hui'}</div><div class="dd">${d.getDate()}</div>${evs.map(e=>`<div class="ev-dot">${hhmm(e.at)} ${e.title}</div>`).join('')}</div>`}).join('')}</div>
+  <div class="bar-row">
+    <div class="chips">${['Tous','Donjon','Raid','Succès','PvP','XP','Guilde'].map(c=>`<button class="chip ${state.cat===c?'on':''}" onclick="state.cat='${c}';render()">${c}</button>`).join('')}</div>
+    <button class="btn" onclick="toast('Formulaire de création (à maquetter)')">Créer un événement</button>
+  </div>
+  ${list.length?list.map(e=>{const full=e.parts.length>=e.max,mine=e.parts.includes(me.id);return `
+  <article class="ticket">
+    <div class="when"><b>${e.at.getDate()}</b><span>${MONTHS[e.at.getMonth()]}</span><span style="color:var(--washi);margin-top:6px">${hhmm(e.at)}</span></div>
+    <div class="what"><span class="tag ${e.cat==='Raid'?'kin':''}">${e.cat}</span>${mine?' <span class="tag ok">Inscrit</span>':''}
+      <h3>${e.title}</h3><p>${e.desc}</p>
+      <div class="who"><span class="avs">${e.parts.map(id=>av(M(id),'sm')).join('')}</span>Organisé par ${M(e.org).name}${e.wait.length?`, ${e.wait.length} en attente`:''}</div>
+    </div>
+    <div class="act"><div class="places"><b>${e.parts.length}/${e.max}</b> places${full?', complet':''}</div><div class="meter"><i style="width:${Math.min(100,e.parts.length/e.max*100)}%"></i></div><button class="btn ${mine?'ghost':''}" onclick="toggleSignup('${e.id}')">${signupLabel(e)}</button></div>
+  </article>`}).join(''):`<div class="panel ash">Aucun événement ${state.cat} prévu. <a style="color:var(--ember)" href="#" onclick="toast('Formulaire de création (à maquetter)');return false">Crées-en un</a>.</div>`}`;
+}},
+
+guilde:{label:'Guilde',icon:'guild',title:'Guilde',render(){
+  const k=state.rank, L={pts:'Général',voc:'Vocal',msg:'Messages'}, s=sortBy(k), max=s[0][k]||1;
+  const rows=s.filter(m=>m.name.toLowerCase().includes(state.q.toLowerCase()));
+  const pod=[s[1],s[0],s[2]];
+  return `
+  <div class="bar-row">
+    <div class="seg">${Object.keys(L).map(x=>`<button class="${x===k?'on':''}" onclick="state.rank='${x}';render()">${L[x]}</button>`).join('')}</div>
+    <span class="ash" style="font-size:13px">Octobre 2026, ${members.length} membres</span>
+  </div>
+  <div class="podium">${pod.map((m,i)=>`<div class="step ${i===1?'p1':''}" onclick="openProfile('${m.id}')"><div class="pos">${[2,1,3][i]}</div>${av(m,i===1?'lg':'')}<b>${m.name}</b><span>${m[k]} points</span></div>`).join('')}</div>
+  <div class="panel">
+    <div class="bar-row"><h2 style="font-family:var(--serif);margin:0;font-size:20px">Annuaire</h2><input class="input" id="gq" placeholder="Chercher un membre" value="${state.q}"></div>
+    <table class="tbl">
+      <thead><tr><th>Rang</th><th>Membre</th><th class="hide-m">Rôle</th><th class="hide-m">Classe</th><th class="hide-m">Activité</th><th class="num">Points</th></tr></thead>
+      <tbody>${rows.map(m=>`<tr class="row ${m===me?'mine':''}" onclick="openProfile('${m.id}')"><td class="rk">${s.indexOf(m)+1}</td><td><span class="who">${av(m,'sm')}${m.name}${m===me?' <span class="tag">Toi</span>':''}</span></td><td class="hide-m ash">${m.role}</td><td class="hide-m ash">${m.cls} ${m.lvl}</td><td class="hide-m"><span class="mbar"><i style="width:${m[k]/max*100}%"></i></span></td><td class="num"><b>${m[k]}</b></td></tr>`).join('')}</tbody>
+    </table>
+  </div>`;
+},after(){const q=document.getElementById('gq');q.oninput=()=>{state.q=q.value;render();const n=document.getElementById('gq');n.focus();n.setSelectionRange(n.value.length,n.value.length)}}},
+
+defis:{label:'Défis',icon:'sword',title:'Défis solotage',render(){
+  const tiers={'Tous':[0,999],'1 à 50':[1,50],'51 à 100':[51,100],'101 à 150':[101,150],'151 à 200':[151,200]};
+  const [a,b]=tiers[state.tier];
+  const list=dungeons.filter(([n,l])=>l>=a&&l<=b);
+  const all=Object.entries(records).flatMap(([d,r])=>r.map(([id,t,p])=>({d,m:M(id),t,p}))).sort((x,y)=>y.p-x.p).slice(0,10);
+  return `
+  <div class="defis">
+    <aside class="panel side"><div class="ph"><h2>Top 10</h2><span class="ash" style="font-size:12.5px">tous donjons</span></div>
+      <ol class="top10" style="list-style:none;margin:0;padding:0">${all.map((x,i)=>`<li><em>${i+1}</em>${av(x.m,'sm')}<div>${x.m.name}<small>${x.d}, ${x.t} tours</small></div><b>${x.p}</b></li>`).join('')}</ol>
+    </aside>
+    <div>
+      <div class="bar-row"><div class="chips">${Object.keys(tiers).map(t=>`<button class="chip ${state.tier===t?'on':''}" onclick="state.tier='${t}';render()">${t}</button>`).join('')}</div><span class="ash" style="font-size:13px">${list.length} donjons</span></div>
+      <div class="tiles">${list.map(([n,l,e],i)=>{const r=records[n]||[];return `<button class="tile" onclick="openDungeon('${esc(n)}')"><div class="art" style="background:linear-gradient(150deg,${PAL[(l/10|0)%PAL.length]},#0e0a0b 85%)"><span class="lv"><small>niveau</small>${l}</span><span class="em">${e}</span></div>${r.length?`<span class="crown tag kin">👑 ${M(r[0][0]).name}</span>`:''}<div class="nm">${n}<small>${r.length?`${r.length} record${r.length>1?'s':''}`:'Aucun record, à toi de jouer'}</small></div></button>`}).join('')}</div>
+    </div>
+  </div>`;
+}},
+
+atelier:{label:'Atelier',icon:'anvil',title:'Atelier de forgemagie',render(){
+  const metiers=['Tous','Joaillomage','Costumage','Cordomage','Sculptemage','Forgemage','Façomage'];
+  const f=j=>state.jobF==='Tous'||j.j===state.jobF;
+  const col=(st,title,hint)=>{const js=jobs.map((j,i)=>({...j,i})).filter(j=>j.st===st&&f(j));return `<section class="col"><h3>${title} <span>${js.length}</span></h3>${js.length?js.map(j=>`
+    <div class="job"><span class="tag ${st==='done'?'ok':''}">${j.j}</span><b>${j.t}</b><div class="k">${kamas(j.k)} <small>kamas</small></div>
+      <div class="who">${av(M(j.by),'sm')}${st==='open'?M(j.by).name:`${M(j.by).name} pour ${M(j.to).name}`}${st==='open'?`<button class="btn sm" onclick="takeJob(${j.i})">Je m’en charge</button>`:''}</div></div>`).join(''):`<p class="ash" style="margin:6px;font-size:13.5px">${hint}</p>`}</section>`};
+  return `
+  <div class="bar-row"><div class="chips">${metiers.map(m=>`<button class="chip ${state.jobF===m?'on':''}" onclick="state.jobF='${m}';render()">${m}</button>`).join('')}</div><button class="btn" onclick="toast('Formulaire de demande (à maquetter)')">Demander une FM</button></div>
+  <div class="kanban">${col('open','Ouvertes','Aucune demande ouverte pour ce métier.')}${col('taken','En cours','Personne ne travaille sur ce métier en ce moment.')}${col('done','Terminées','Rien de terminé pour l’instant.')}</div>`;
+}},
+};
+
+/* ================= Drawer ================= */
+const scrim=document.getElementById('scrim'), drawer=document.getElementById('drawer');
+function openDrawer(html){drawer.innerHTML=`<button class="iconbtn x" onclick="closeAll()" aria-label="Fermer">${ico('x',18)}</button>`+html;drawer.classList.add('on');scrim.classList.add('on');drawer.setAttribute('aria-hidden','false')}
+function closeAll(){drawer.classList.remove('on');scrim.classList.remove('on');pal.classList.remove('on');drawer.setAttribute('aria-hidden','true')}
+scrim.onclick=closeAll;
+function openProfile(id){
+  const m=M(id), chars=m.chars||[{n:m.name.split('-')[0],c:m.cls,l:m.lvl}], jb=m.jobs||[];
+  const recs=Object.entries(records).flatMap(([d,r])=>r.filter(x=>x[0]===id).map(x=>({d,t:x[1],p:x[2]})));
+  openDrawer(`${av(m,'lg')}<h2>${m.name}</h2><div class="ash">${m.role}, ${m.cls} niveau ${m.lvl}</div>
+    ${m===me?'<div style="display:flex;gap:8px;margin-top:14px"><button class="btn sm">Ajouter un personnage</button><button class="btn ghost sm">Modifier mes métiers</button></div>':''}
+    <h4>Octobre</h4><div class="stats3"><div>Rang<b style="color:var(--kin)">${rankOf(m)}e</b></div><div>Messages<b>${m.msg}</b></div><div>Vocal<b>${m.voc}</b></div></div>
+    <h4>Personnages</h4><div class="list-plain">${chars.map(c=>`<div>${c.n}<span>${c.c}, niv. ${c.l}</span></div>`).join('')}</div>
+    <h4>Métiers</h4>${jb.length?`<div class="list-plain">${jb.map(j=>`<div>${j.n}<span>niv. ${j.l}</span></div>`).join('')}</div>`:'<p class="ash">Aucun métier renseigné.</p>'}
+    <h4>Records solotage</h4>${recs.length?`<div class="list-plain">${recs.map(r=>`<div>${r.d}<span>${r.p} pts, ${r.t} tours</span></div>`).join('')}</div>`:'<p class="ash">Aucun record pour l’instant.</p>'}`);
+}
+function openDungeon(n){
+  const d=dungeons.find(x=>x[0]===n), r=records[n]||[];
+  openDrawer(`<div style="font-size:56px">${d[2]}</div><h2>${n}</h2><div class="ash">Niveau ${d[1]}</div>
+    <h4>Records</h4>${r.length?`<div class="list-plain">${r.map(([id,t,p],i)=>`<div>${i+1}. ${M(id).name}<span>${p} pts, ${t} tours</span></div>`).join('')}</div>`:'<p class="ash">Personne n’a encore soloté ce donjon.</p>'}
+    <button class="btn" style="margin-top:20px;width:100%" onclick="closeAll();toast('Formulaire de record (à maquetter)')">Enregistrer mon solotage</button>`);
+}
+
+/* ================= Palette Ctrl+K ================= */
+const pal=document.getElementById('pal'), palIn=document.getElementById('palIn'), palList=document.getElementById('palList');
+const palItems=()=>[
+  ...Object.entries(pages).map(([k,p])=>({t:p.label,s:'Page',go:()=>{location.hash=k}})),
+  ...members.map(m=>({t:m.name,s:'Membre',go:()=>openProfile(m.id)})),
+  ...dungeons.map(d=>({t:d[0],s:`Donjon niv. ${d[1]}`,go:()=>openDungeon(d[0])})),
+];
+function drawPal(){const q=palIn.value.toLowerCase();const it=palItems().filter(i=>i.t.toLowerCase().includes(q)).slice(0,8);palList.innerHTML=it.map((i,n)=>`<li><a href="#" class="${n?'':'sel'}" data-n="${n}">${i.t}<small>${i.s}</small></a></li>`).join('');palList.querySelectorAll('a').forEach(a=>a.onclick=e=>{e.preventDefault();closeAll();it[a.dataset.n].go()});palList._it=it}
+function openPal(){closeAll();pal.classList.add('on');scrim.classList.add('on');palIn.value='';drawPal();setTimeout(()=>palIn.focus(),10)}
+palIn.oninput=drawPal;
+palIn.onkeydown=e=>{if(e.key==='Enter'&&palList._it[0]){closeAll();palList._it[0].go()}};
+document.getElementById('openPal').onclick=openPal;
+addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openPal()}if(e.key==='Escape')closeAll()});
+
+/* ================= Rendu ================= */
+document.getElementById('meBtn').innerHTML=`${av(me,'sm')}<div><b>${me.name}</b><small>${me.role}</small></div>`;
+document.getElementById('meBtn').onclick=()=>openProfile(me.id);
+function render(){
+  const key=(location.hash.slice(1)||'accueil'), p=pages[key]||pages.accueil, k=pages[key]?key:'accueil';
+  document.getElementById('rail').innerHTML=`<div class="seal">${'<svg viewBox="0 0 46 30"><path fill="#fff" d="M12 29a10 10 0 0 1-1.5-19.9A12 12 0 0 1 33 7.5 9 9 0 0 1 36 29Z"/></svg>'}</div>`+
+    Object.entries(pages).map(([id,pg])=>`<a href="#${id}" class="${id===k?'on':''}" ${id===k?'aria-current="page"':''}>${ico(pg.icon)}${pg.label}</a>`).join('')+'<div class="spacer"></div>';
+  document.getElementById('ptitle').textContent=p.title;
+  document.getElementById('view').innerHTML=p.render();
+  p.after&&p.after();
+}
+addEventListener('hashchange',()=>{closeAll();render();scrollTo(0,0)});
+render();
+</script>
+</body>
+</html>
