@@ -1,11 +1,13 @@
 /* Panneau latéral : détail d'un donjon, formulaire de solotage, détail d'un succès */
 
-// size : false (normal), true ou 'wide' (large), 'xl' (presque plein écran, pour Skinoskope)
+// size : false (panneau à droite), true ou 'wide' (panneau large), 'modal' (pop-up centrée), 'xl' (grande pop-up, pour Skinoskope)
 function openDrawer(html, size = false) {
   const drawer = document.getElementById('drawer');
   drawer.innerHTML = `<button class="iconbtn x" onclick="closeAll()" aria-label="Fermer">${ico('x', 18)}</button>` + html;
   drawer.classList.toggle('wide', size === true || size === 'wide');
   drawer.classList.toggle('xl', size === 'xl');
+  // 'modal' et 'xl' : pop-up au centre de l'écran (formulaires, éditeur de skin)
+  drawer.classList.toggle('modal', size === 'modal' || size === 'xl');
   drawer.classList.add('on');
   drawer.setAttribute('aria-hidden', 'false');
   document.getElementById('scrim').classList.add('on');
@@ -65,10 +67,11 @@ function openRecordForm(name = '') {
     <h2>Enregistrer un solotage</h2>
     <p class="ash small">Ton record sera visible après validation par un officier.</p>
     <form class="rec-form" onsubmit="event.preventDefault();submitRecord()">
+      <div class="modal-grid">
+        <div class="modal-col">
       <div class="field"><span class="field-lbl">Donjon</span>${dungeonPicker('recDungeon', name)}</div>
 
       <div id="recDj"></div>
-
       <fieldset class="rec-field">
         <legend>Personnage</legend>
         <div class="rec-chars">${me.chars.map((ch, i) => `
@@ -77,16 +80,9 @@ function openRecordForm(name = '') {
           </label>`).join('')}
         </div>
       </fieldset>
-
       <label>Nombre de tours
         <input class="input" id="recTurns" type="number" min="1" max="99" value="6" oninput="updateRecordEstimate()" required>
       </label>
-
-      <fieldset class="rec-field">
-        <legend>Succès validés pendant le combat</legend>
-        <div id="recAchs" class="rec-achs-pick"><p class="ash small">Choisis d’abord un donjon.</p></div>
-      </fieldset>
-
       <div class="rec-proof">
         <div class="rec-proof-head">
           <span>Capture de fin de combat</span>
@@ -98,20 +94,29 @@ function openRecordForm(name = '') {
         </label>
         <p class="trust-note" id="recTrustNote" hidden>Pas de capture : ton record est envoyé sur parole. Un officier pourra te demander une preuve.</p>
       </div>
+        </div>
+        <div class="modal-col">
+      <fieldset class="rec-field">
+        <legend>Succès validés pendant le combat</legend>
+        <div id="recAchs" class="rec-achs-pick"><p class="ash small">Choisis d’abord un donjon.</p></div>
+      </fieldset>
       <label><span>Lien vidéo <span class="ash xsmall">facultatif</span></span>
         <input class="input" id="recVideo" type="url" placeholder="https://youtube.com/…">
       </label>
       <label><span>Commentaire <span class="ash xsmall">facultatif</span></span>
         <textarea class="input area" id="recNote" maxlength="200" placeholder="Stuff, stratégie, conditions…"></textarea>
       </label>
-
-      <div class="rec-estimate" id="recEstimate"></div>
-      <button class="btn block" type="submit">Envoyer pour validation</button>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <div class="rec-estimate" id="recEstimate"></div>
+        <button class="btn" type="submit">Envoyer pour validation</button>
+      </div>
     </form>
-  `, true);
+  `, 'modal');
   initDungeonPicker('recDungeon', renderRecordDungeon);
   renderRecordDungeon();
-  if (!name) setTimeout(() => document.querySelector('#recDungeon-djp .djp-q').focus(), 50);
+  if (!name) setTimeout(() => document.querySelector('#recDungeon-djp .djp-q')?.focus(), 50);
 }
 
 // En-tête du donjon choisi + liste de ses succès à cocher
@@ -214,6 +219,8 @@ function openEventForm(dayKey = null) {
     <h2>Créer un événement</h2>
     <p class="ash small">Il apparaîtra dans l’agenda et sur l’accueil de tous les membres.</p>
     <form class="rec-form" onsubmit="event.preventDefault();createEvent()">
+      <div class="modal-grid">
+        <div class="modal-col">
       <label>Titre
         <input class="input" id="evTitle" maxlength="60" placeholder="Raid Comte Harebourg, soirée succès…" oninput="this.dataset.auto=''" required>
       </label>
@@ -228,6 +235,8 @@ function openEventForm(dayKey = null) {
       <label id="evQuestWrap" hidden><span>Nom de la quête</span>
         <input class="input" id="evQuest" maxlength="80" placeholder="Ex. : Le Dofus Ocre, La Quête du Dofus Vulbis…" oninput="onEventQuest()">
       </label>
+        </div>
+        <div class="modal-col">
       <div class="ev-row">
         <label>Date<input class="input" id="evDate" type="date" value="${iso}" required></label>
         <label>Heure<input class="input" id="evTime" type="time" value="21:00" required></label>
@@ -236,12 +245,16 @@ function openEventForm(dayKey = null) {
       <label>Description
         <textarea class="input area" id="evDesc" maxlength="300" placeholder="Niveau conseillé, stuff, vocal…"></textarea>
       </label>
-      <label class="ev-check"><input type="checkbox" id="evJoin" checked> M’inscrire avec ${me.chars[0].n}</label>
-      <button class="btn block" type="submit">Créer l’événement</button>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <label class="ev-check"><input type="checkbox" id="evJoin" checked> M’inscrire avec ${me.chars[0].n}</label>
+        <button class="btn" type="submit">Créer l’événement</button>
+      </div>
     </form>
-  `);
+  `, 'modal');
   initDungeonPicker('evDungeon', onEventDungeon);
-  setTimeout(() => document.getElementById('evTitle').focus(), 50);
+  setTimeout(() => document.getElementById('evTitle')?.focus(), 50);
 }
 
 // Choix d'un donjon : aperçu du boss, catégorie Donjon cochée, titre proposé s'il est vide
@@ -282,8 +295,13 @@ function openFmForm() {
     <h2>Demander une FM</h2>
     <p class="ash small">Un forgemage de la guilde pourra prendre ta demande dans l’atelier.</p>
     <form class="rec-form" onsubmit="event.preventDefault();createFmRequest()">
+      <div class="modal-grid">
+        <div class="modal-col">
       <div class="field"><span class="field-lbl">Objet à forgemager</span>${itemPicker('fmItem')}</div>
-      <div id="fmPreview"></div>
+      <div id="fmPreview"><p class="ash small fm-empty">Cherche l’objet pour voir sa fiche et ses jets.</p></div>
+        </div>
+        <div class="modal-col">
+      <div id="fmJets"></div>
       <fieldset class="rec-field">
         <legend>Exo souhaité</legend>
         <div class="chips">${FM_EXOS.map((x, i) => `
@@ -297,24 +315,30 @@ function openFmForm() {
       <label><span>Commentaire <span class="ash xsmall">facultatif</span></span>
         <textarea class="input area" id="fmNote" maxlength="250" placeholder="Jets visés, runes déjà en ma possession, délai…"></textarea>
       </label>
-      <button class="btn block" type="submit">Envoyer la demande</button>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <span></span>
+        <button class="btn" type="submit">Envoyer la demande</button>
+      </div>
     </form>
-  `, true);
+  `, 'modal');
   initItemPicker('fmItem', onFmItem);
-  setTimeout(() => document.querySelector('#fmItem-djp .djp-q').focus(), 50);
+  setTimeout(() => document.querySelector('#fmItem-djp .djp-q')?.focus(), 50);
 }
 
 // Objet choisi : fiche avec le métier déduit et ses jets de base, à cocher pour les monter
 async function onFmItem(item) {
   const box = document.getElementById('fmPreview');
-  if (!item) { box.innerHTML = ''; return; }
+  const jets = document.getElementById('fmJets');
+  if (!item) { box.innerHTML = ''; jets.innerHTML = ''; return; }
   box.innerHTML = `
-    <div class="fm-item">
+    <div class="fm-item fm-item-big">
       <img class="item-img" src="${item.img}" width="72" height="72" alt="">
       <div><b>${item.name}</b><span class="ash small">${item.type}, niveau ${item.level}</span>
         ${item.job ? `<span class="tag kin">${item.job}</span>` : ''}</div>
-    </div>
-    <fieldset class="rec-field"><legend>Jets à respecter <span class="ash xsmall">coche et indique la valeur visée</span></legend><div id="fmStats" class="rec-achs-pick"><p class="ash small">Chargement des jets…</p></div></fieldset>`;
+    </div>`;
+  jets.innerHTML = `<fieldset class="rec-field"><legend>Jets à respecter</legend><div id="fmStats" class="rec-achs-pick"><p class="ash small">Chargement des jets…</p></div></fieldset>`;
   try {
     const lines = await itemEffectLines(item);
     if (pickedItems.fmItem !== item) return;

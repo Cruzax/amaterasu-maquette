@@ -337,3 +337,47 @@
 .drawer.xl { width: min(1240px, 96vw); }
 .skin-frame { margin-top: 14px; height: min(680px, 70vh); border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--c-hair); background: #111; }
 .skin-frame iframe { width: 100%; height: 100%; border: 0; }
+
+/* ---------- Pop-up centrée (formulaires) ---------- */
+.drawer.modal {
+  top: 50%; left: 50%; right: auto;
+  height: auto; max-height: 90vh;
+  width: min(940px, 94vw);
+  border: 1px solid var(--c-hair-2);
+  border-radius: var(--r-xl);
+  box-shadow: 0 40px 120px #000e;
+  padding: 28px 30px 0;
+  transform: translate(-50%, -47%) scale(.98);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--t-med) ease, opacity var(--t-med) ease;
+}
+.drawer.modal.on { transform: translate(-50%, -50%); opacity: 1; pointer-events: auto; }
+.drawer.modal.xl { width: min(1240px, 96vw); }
+.drawer.modal > h2 { margin-top: 0; }
+.modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; align-items: start; }
+.modal-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.modal-col > label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.modal-col .rec-achs-pick { max-height: 46vh; overflow: auto; padding-right: 4px; }
+/* Barre d'action collée en bas de la pop-up */
+.modal-foot {
+  position: sticky; bottom: 0;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  margin: 20px -30px 0; padding: 16px 30px;
+  background: linear-gradient(180deg, #0e0a0bf0, var(--c-ink) 40%);
+  border-top: 1px solid var(--c-hair);
+}
+.modal-foot .rec-estimate { flex: 1; margin: 0; }
+.modal-foot > .btn { flex: none; padding: 12px 22px; }
+.fm-item-big { flex-direction: column; text-align: center; padding: 22px; }
+.fm-item-big .item-img { width: 120px; height: 120px; }
+.fm-empty { padding: 30px 10px; text-align: center; border: 1.5px dashed var(--c-hair-2); border-radius: var(--r-md); }
+@media (max-width: 760px) {
+  .drawer.modal { top: auto; bottom: 0; left: 0; width: 100%; max-height: 92vh; border-radius: var(--r-xl) var(--r-xl) 0 0; padding: 22px 18px 0; transform: translateY(100%); }
+  .drawer.modal.on { transform: none; }
+  .modal-grid { grid-template-columns: 1fr; gap: 16px; }
+  .modal-foot { margin: 16px -18px 0; padding: 12px 18px; flex-wrap: wrap; }
+  .modal-col .rec-achs-pick { max-height: none; }
+}
+/* Le champ « valeur visée » garde sa petite largeur dans les formulaires */
+.rec-form .jet-pick .jet-target { width: 78px; flex: none; }
