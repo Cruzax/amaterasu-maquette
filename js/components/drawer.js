@@ -65,7 +65,6 @@ function openDungeon(name) {
 function openRecordForm(name = '') {
   openDrawer(`
     <h2>Enregistrer un solotage</h2>
-    <p class="ash small">Ton record sera visible après validation par un officier.</p>
     <form class="rec-form" onsubmit="event.preventDefault();submitRecord()">
       <div class="modal-grid">
         <div class="modal-col">
@@ -90,15 +89,14 @@ function openRecordForm(name = '') {
         </div>
         <label class="rec-drop" id="recDrop">
           <input type="file" id="recProof" accept="image/*" onchange="previewProof(this)">
-          <span id="recDropText">Choisis une image : fenêtre de victoire avec le nombre de tours et les challenges</span>
+          <span id="recDropText">Ajouter une capture</span>
         </label>
-        <p class="trust-note" id="recTrustNote" hidden>Pas de capture : ton record est envoyé sur parole. Un officier pourra te demander une preuve.</p>
       </div>
         </div>
         <div class="modal-col">
       <fieldset class="rec-field">
         <legend>Succès validés pendant le combat</legend>
-        <div id="recAchs" class="rec-achs-pick"><p class="ash small">Choisis d’abord un donjon.</p></div>
+        <div id="recAchs" class="rec-achs-pick"></div>
       </fieldset>
       <label><span>Lien vidéo <span class="ash xsmall">facultatif</span></span>
         <input class="input" id="recVideo" type="url" placeholder="https://youtube.com/…">
@@ -136,7 +134,7 @@ function renderRecordDungeon() {
       ${chalIcon(a, 34)}
       <span><b>${achLabel(a)}</b><small>${a.challenge && CHALLENGES[a.challenge] ? CHALLENGES[a.challenge].desc : a.desc}</small></span>
       <em>+${a.pts}</em>
-    </label>`).join('') : '<p class="ash small">Choisis d’abord un donjon.</p>';
+    </label>`).join('') : '';
   updateRecordEstimate();
 }
 
@@ -170,7 +168,6 @@ function toggleTrust() {
   const on = btn.getAttribute('aria-pressed') !== 'true';
   btn.setAttribute('aria-pressed', on);
   document.getElementById('recDrop').hidden = on;
-  document.getElementById('recTrustNote').hidden = !on;
 }
 
 const isTrusted = () => document.getElementById('recTrust').getAttribute('aria-pressed') === 'true';
@@ -217,7 +214,6 @@ function openEventForm(dayKey = null) {
   const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   openDrawer(`
     <h2>Créer un événement</h2>
-    <p class="ash small">Il apparaîtra dans l’agenda et sur l’accueil de tous les membres.</p>
     <form class="rec-form" onsubmit="event.preventDefault();createEvent()">
       <div class="modal-grid">
         <div class="modal-col">
@@ -293,12 +289,11 @@ function onEventQuest() {
 function openFmForm() {
   openDrawer(`
     <h2>Demander une FM</h2>
-    <p class="ash small">Un forgemage de la guilde pourra prendre ta demande dans l’atelier.</p>
     <form class="rec-form" onsubmit="event.preventDefault();createFmRequest()">
       <div class="modal-grid">
         <div class="modal-col">
       <div class="field"><span class="field-lbl">Objet à forgemager</span>${itemPicker('fmItem')}</div>
-      <div id="fmPreview"><p class="ash small fm-empty">Cherche l’objet pour voir sa fiche et ses jets.</p></div>
+      <div id="fmPreview"><div class="fm-empty">${ico('anvil', 40)}</div></div>
         </div>
         <div class="modal-col">
       <div id="fmJets"></div>
@@ -359,14 +354,12 @@ function openSkinEditor(index = 0) {
   const ch = me.chars[index];
   openDrawer(`
     <h2>Changer le skin de ${ch.n}</h2>
-    <p class="ash small">Modifie corps, tête, couleurs et équipements, puis enregistre : le nouveau skin s’affichera sur ton profil.</p>
     <div class="skin-frame"><iframe id="skino" src="${skinUrl(ch)}" title="Éditeur Skinoskope"></iframe></div>
     ${SKINOSKOPE_SAME_ORIGIN ? '' : `
       <div class="cc-paste">
-        <p>Sur la version en ligne, le skin ne peut pas être lu tout seul. Ouvre l’éditeur en grand, fais ton skin, puis colle ici l’adresse de la page.</p>
         <div class="cc-paste-row">
-          <a class="btn ghost sm" href="${skinUrl(ch)}" target="_blank" rel="noopener">Ouvrir l’éditeur en grand</a>
-          <input class="input" id="skinoLink" placeholder="${SKINOSKOPE_URL}?s=…" aria-label="Lien du skin Skinoskope">
+          <a class="btn ghost sm" href="${skinUrl(ch)}" target="_blank" rel="noopener">Ouvrir en grand</a>
+          <input class="input" id="skinoLink" placeholder="Colle ici le lien de ton skin" aria-label="Lien du skin Skinoskope">
         </div>
       </div>`}
     <div class="cc-foot">

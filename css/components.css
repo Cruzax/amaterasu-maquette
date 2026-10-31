@@ -381,3 +381,4 @@
 }
 /* Le champ « valeur visée » garde sa petite largeur dans les formulaires */
 .rec-form .jet-pick .jet-target { width: 78px; flex: none; }
+.fm-empty { display: grid; place-items: center; min-height: 200px; color: var(--c-hair-2); }

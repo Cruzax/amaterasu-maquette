@@ -160,7 +160,7 @@ pages.profil = {
         ${list.length
           ? `<div class="vitrine">${list.map(a => `
               <button class="vit" onclick="openAchievement('${a.id}')">${stamp(a, true, 'lg')}<b>${a.name}</b><span>${rarity(a)} % de la guilde</span></button>`).join('')}</div>`
-          : `<p class="ash">${own ? 'Épingle tes succès préférés avec Personnaliser.' : 'Aucun succès épinglé.'}</p>`}
+          : `<p class="ash">Aucun succès épinglé.</p>`}
       </section>`;
   },
 

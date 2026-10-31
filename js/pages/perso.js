@@ -44,7 +44,7 @@ pages.perso = {
               </button>`).join('')}
             </div>
             <button class="btn block" style="margin-top:20px" onclick="draftStep(2)">Choisir l’apparence</button>`
-          : `<p class="ash">Choisis une classe pour voir son rôle et sa complexité.</p>`}
+          : ''}
         </aside>
       </div>`;
   },
@@ -61,10 +61,9 @@ pages.perso = {
       </div>
       ${SKINOSKOPE_URL && !SKINOSKOPE_SAME_ORIGIN ? `
         <div class="cc-paste">
-          <p>Sur la version en ligne, l’apparence ne peut pas être lue toute seule. Ouvre l’éditeur en grand, fais ton skin, puis colle ici l’adresse de la page.</p>
           <div class="cc-paste-row">
-            <a class="btn ghost sm" href="${SKINOSKOPE_URL}?s=${lookParam(ch)}" target="_blank" rel="noopener">Ouvrir l’éditeur en grand</a>
-            <input class="input" id="skinoLink" placeholder="${SKINOSKOPE_URL}?s=…" aria-label="Lien du skin Skinoskope">
+            <a class="btn ghost sm" href="${SKINOSKOPE_URL}?s=${lookParam(ch)}" target="_blank" rel="noopener">Ouvrir en grand</a>
+            <input class="input" id="skinoLink" placeholder="Colle ici le lien de ton skin" aria-label="Lien du skin Skinoskope">
           </div>
         </div>` : ''}
       <div class="cc-foot">
