@@ -5,7 +5,7 @@
   position: relative;
   border-radius: var(--r-xl);
   border: 1px solid var(--c-hair);
-  padding: 120px 28px 24px;
+  padding: 40px 28px 24px;
   margin-bottom: var(--gap);
   overflow: hidden;
 }
@@ -80,7 +80,7 @@
   .prof-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 760px) {
-  .prof-head { padding: 90px 18px 18px; }
+  .prof-head { padding: 28px 18px 18px; }
   .av.xl { width: 84px; height: 84px; font-size: 32px; }
   .prof-name h2 { font-size: 28px; }
   .main-char { grid-template-columns: 1fr; }
