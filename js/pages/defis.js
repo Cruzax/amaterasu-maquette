@@ -73,7 +73,7 @@ pages.defis = {
     const waiting = pendingRecords.some(p => p.dungeon === d.name && p.by === me.id);
     const color = levelColor(d.level);
     return `
-      <button class="tile" onclick="openDungeon('${esc(d.name)}')">
+      <button class="tile" onclick="openRecordForm('${esc(d.name)}')">
         <div class="art" style="background:linear-gradient(150deg,${color},var(--c-ink) 85%)">
           <span class="lv"><small>niveau</small>${d.level}</span>${bossImg(d, 116)}
         </div>
